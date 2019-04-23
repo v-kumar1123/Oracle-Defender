@@ -7,9 +7,11 @@ import java.io.IOException;
 
 public class OracleDefenderFrame extends JFrame {
     ImageTools2 tools=new ImageTools2();
+    File wallLocation=new File("Wall.png");
+    File walkableTileLocation=new File("WalkableTile.png");
     public OracleDefenderFrame() {
         super();
-        setSize(600,600);
+        setSize(400,400);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -17,13 +19,7 @@ public class OracleDefenderFrame extends JFrame {
         setResizable(false);
     }
     public void paint(Graphics g) {
-        BufferedImage tile=null;
-        try {
-            tile=ImageIO.read(new File("C:\\Users\\othscs097\\Desktop\\Oracle-Defender\\src\\WalkableTile.png"));
-        }catch(IOException e) {
-            e.printStackTrace();
-        }
-        tile=tools.scale(tile,100,100);
-
+        g.setColor(new Color(100,125,170));
+        g.fillRect(0,0,getWidth(),getHeight());
     }
 }
