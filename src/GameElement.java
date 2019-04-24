@@ -2,6 +2,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 
 public class GameElement {
     private int x=0;
@@ -24,6 +25,13 @@ public class GameElement {
         this.y = y;
         this.width = width;
         this.height = height;
+    }
+
+    public GameElement(int x, int y, File convertToImage) {
+        this.x = x;
+        this.y = y;
+        this.convertToImage=convertToImage;
+        elementImage=convertFileToImage();
     }
 
     public GameElement(File convertToImage, int imageWidth, int imageHeight) {
