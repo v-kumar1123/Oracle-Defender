@@ -35,6 +35,7 @@ public class Wall extends GameElement{
         this.x=x;
         this.y=y;
         image=super.tools.scale(convertFileToImage(),5.0,5.0);
+        super.setElementImage(image);
         this.imageHeight=image.getHeight();
         this.imageWidth=image.getWidth();
     }
