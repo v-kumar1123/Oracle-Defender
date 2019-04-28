@@ -15,6 +15,8 @@ public class OracleDefenderFrame extends JFrame implements KeyListener {
     int worldWidth=game.levelWidth;
     int worldHeight=game.levelWidth;
     boolean rightPressed=false;
+    boolean upPressed=false;
+    boolean downPressed=false;
     boolean leftPressed=false;
     int worldY=0;
     BufferedImage buffer=null;
@@ -43,6 +45,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener {
             int startColumnX = worldX / 25;
             int finderX = startColumnX * 25;
             int toMove=worldX%25;
+            int toMoveY=worldY%25;
 
             GameElement r = game.getLevelOne().get(v);
 
@@ -89,6 +92,8 @@ public class OracleDefenderFrame extends JFrame implements KeyListener {
             }
             rightPressed=true;
             leftPressed=false;
+            upPressed=false;
+            downPressed=false;
             repaint();
         }
         else if(e.getKeyChar()=='A'||e.getKeyChar()=='a') {
@@ -96,6 +101,19 @@ public class OracleDefenderFrame extends JFrame implements KeyListener {
                 worldX--;
                 rightPressed=false;
                 leftPressed=true;
+                upPressed=false;
+                downPressed=false;
+                repaint();
+            }
+        }
+
+        else if(e.getKeyChar()=='W'||e.getKeyChar()=='w') {
+            if(worldY>0) {
+                worldY++;
+                rightPressed=false;
+                leftPressed=false;
+                upPressed=true;
+                downPressed=false;
                 repaint();
             }
         }
