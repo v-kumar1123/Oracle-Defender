@@ -116,12 +116,12 @@ public class OracleDefenderFrame extends JFrame implements KeyListener {
         if(e.getKeyChar()=='D'||e.getKeyChar()=='d') {
             if(worldX<game.levelWidth) {
                 worldX++;
+                rightPressed=true;
+                leftPressed=false;
+                upPressed=false;
+                downPressed=false;
+                repaint();
             }
-            rightPressed=true;
-            leftPressed=false;
-            upPressed=false;
-            downPressed=false;
-            repaint();
         }
         else if(e.getKeyChar()=='A'||e.getKeyChar()=='a') {
             if(worldX>0) {
@@ -147,7 +147,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener {
 
         else if(e.getKeyChar()=='S'||e.getKeyChar()=='s') {
             if(worldY<game.levelHeight) {
-                worldY++;
+                worldY--;
                 rightPressed=false;
                 leftPressed=false;
                 upPressed=false;
