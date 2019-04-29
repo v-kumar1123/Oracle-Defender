@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.Buffer;
 
-public class GameElement {
+public class GameElement  {
     private int x=0;
     private int y=0;
     private BufferedImage elementImage=null;
@@ -21,6 +21,7 @@ public class GameElement {
     }
 
     public GameElement(int x, int y, int width, int height) {
+        //super(x,y,width,height);
         this.x = x;
         this.y = y;
         this.width = width;
@@ -39,19 +40,20 @@ public class GameElement {
         this.x = x;
         this.y = y;
         this.convertToImage=convertToImage;
-        //elementImage=convertFileToImage();
+        elementImage=convertFileToImage();
+
     }
 
-    public GameElement(File convertToImage, int imageWidth, int imageHeight) {
+    /*public GameElement(File convertToImage, int imageWidth, int imageHeight) {
         isImage = true;
         this.convertToImage = convertToImage;
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
 
         elementImage = convertFileToImage();
-    }
+    }*/
 
-    public GameElement(File convertToImage) {
+    /*public GameElement(File convertToImage) {
         this.convertToImage=convertToImage;
         elementImage=convertFileToImage();
     }
@@ -59,7 +61,7 @@ public class GameElement {
         elementImage=image;
         this.imageWidth = elementImage.getWidth();
         this.imageHeight = elementImage.getHeight();
-    }
+    }*/
 
     public BufferedImage convertFileToImage() {
         try {

@@ -51,9 +51,27 @@ public class OracleDefenderFrame extends JFrame implements KeyListener {
 
             if(rightPressed) {
                 r.setX(r.getX() - toMove);
+                if(r instanceof Ampelius) {
+                    r.setX(r.getX()+15);
+                }
             }
             else if(leftPressed) {
                 r.setX(r.getX() + toMove);
+                if(r instanceof Ampelius) {
+                    r.setX(r.getX()-15);
+                }
+            }
+            else if(downPressed) {
+                r.setY(r.getY() + toMoveY);
+                if(r instanceof Ampelius) {
+                    r.setY(r.getY()+15);
+                }
+            }
+            else if(upPressed) {
+                r.setY(r.getY() - toMoveY);
+                if(r instanceof Ampelius) {
+                    r.setY(r.getY()-15);
+                }
             }
             if(r.getX()<getWidth()) {
                 if (r.getX() == finderX) {
@@ -63,11 +81,20 @@ public class OracleDefenderFrame extends JFrame implements KeyListener {
                 } else {
                     bg.drawImage(r.getElementImage(), r.getX(), r.getY(), null);
                 }
+
+
             }
             tempX=startColumnX;
 
         }
 
+        for (int v = 0; v < game.getLevelOne().size(); v++) {
+            GameElement t=game.getLevelOne().get(v);
+            
+            if(t instanceof Ampelius) {
+                bg.drawImage(t.getElementImage(), t.getX(), t.getY(), null);
+            }
+        }
         g.drawImage(buffer,0,0,null);
     }
 
@@ -114,6 +141,17 @@ public class OracleDefenderFrame extends JFrame implements KeyListener {
                 leftPressed=false;
                 upPressed=true;
                 downPressed=false;
+                repaint();
+            }
+        }
+
+        else if(e.getKeyChar()=='S'||e.getKeyChar()=='s') {
+            if(worldY<game.levelHeight) {
+                worldY++;
+                rightPressed=false;
+                leftPressed=false;
+                upPressed=false;
+                downPressed=true;
                 repaint();
             }
         }
