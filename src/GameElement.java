@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.Buffer;
 
-public class GameElement  {
+public class GameElement extends Collidable  {
     private int x=0;
     private int y=0;
     private BufferedImage elementImage=null;
@@ -21,7 +21,7 @@ public class GameElement  {
     }
 
     public GameElement(int x, int y, int width, int height) {
-        //super(x,y,width,height);
+        super(x,y,width,height);
         this.x = x;
         this.y = y;
         this.width = width;
@@ -37,10 +37,11 @@ public class GameElement  {
     }
 
     public GameElement(int x, int y, File convertToImage) {
+        super(x,y,convertToImage);
         this.x = x;
         this.y = y;
         this.convertToImage=convertToImage;
-        elementImage=convertFileToImage();
+        elementImage=super.convertFileToImage();
 
     }
 
@@ -62,15 +63,6 @@ public class GameElement  {
         this.imageWidth = elementImage.getWidth();
         this.imageHeight = elementImage.getHeight();
     }*/
-
-    public BufferedImage convertFileToImage() {
-        try {
-            return ImageIO.read(convertToImage);
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public BufferedImage getElementImage() {
         return elementImage;

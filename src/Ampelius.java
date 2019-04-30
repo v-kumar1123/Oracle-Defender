@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -5,8 +6,11 @@ public class Ampelius extends GameElement{
     int imageWidth=0;
     int imageHeight=0;
     BufferedImage image=null;
-    int x=0;
-    int y=0;
+    int x,y,width,height,startX,startY;
+    boolean up=false;
+    boolean down=false;
+    boolean right=false;
+    boolean left=false;
 
     public void setX(int x) {
         this.x = x;
@@ -19,6 +23,10 @@ public class Ampelius extends GameElement{
     @Override
     public int getX() {
         return x;
+    }
+
+    public void updateRectangle(){
+        setRect(new Rectangle(x,y,width,height));
     }
 
     @Override
@@ -38,6 +46,31 @@ public class Ampelius extends GameElement{
         super.setElementImage(image);
         this.imageHeight=image.getHeight();
         this.imageWidth=image.getWidth();
+    }
+
+
+    public void setUp(boolean up){
+        this.up=up;
+    }
+    public void setDown(boolean up){
+        this.down=up;
+    }
+    public void setRight(boolean up){
+        this.right=up;
+    }
+    public void setLeft(boolean up){
+        this.left=up;
+    }
+    public void update() {
+        if (up) {
+            y -= 2;
+        } else if (down) {
+            y += 2;
+        } else if (left) {
+            x -= 2;
+        } else if (right) {
+            x += 2;
+        }
     }
 
     @Override

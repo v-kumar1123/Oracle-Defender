@@ -1,9 +1,16 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 public class Collidable {
     private Rectangle rect=null;
+
+    BufferedImage image=null;
+
+    File file=null;
 
     public Collidable(Rectangle rect) {
         this.rect = rect;
@@ -15,7 +22,18 @@ public class Collidable {
     }
 
     public Collidable(int x, int y, File file) {
+        this.file=file;
+        image=convertFileToImage();
+        this.rect = new Rectangle(x,y,image.getWidth(),image.getHeight());
+    }
 
+    public BufferedImage convertFileToImage() {
+        try {
+            return ImageIO.read(file);
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public Rectangle getRect() {
