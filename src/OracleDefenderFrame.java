@@ -48,59 +48,44 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         bg.setColor(new Color(100,125,170));
         bg.fillRect(0,0,getWidth(),getHeight());
         int tempX=0;
+
+        int startColumnX = worldX / 25;
+        //Draws World
         for (int v = 0; v < game.getGeneric().size(); v++) {
-            int startColumnX = worldX / 25;
-            int finderX = startColumnX * 25;
-            int toMove=worldX%25;
-            int toMoveY=worldY%25;
+            GameElement r = (GameElement) game.getGeneric().get(v);
+            if(r instanceof Ampelius&&r.getX()+r.getImageWidth()>=getWidth()) {
 
-            GameElement r = (GameElement)game.getGeneric().get(v);
-
-            /*if(rightPressed) {
-                r.setX(r.getX() - toMove);
-                /*if(r instanceof Ampelius) {
-                    r.setX(r.getX()+2);
+                bg.setColor(new Color(100,125,170));
+                bg.fillRect(0,0,getWidth(),getHeight());
+                for(int e=0;e<game.getGeneric().size();e++) {
+                    int finderX = startColumnX * 25;
+                    int toMove = worldX % 25;
+                    int toMoveY = worldY % 25;
+                    GameElement y = (GameElement) game.getGeneric().get(e);
+                    //if(!(y instanceof Ampelius)) {
+                    if (y.getX() == finderX) {
+                        System.out.println("GAME WILL SCROLL");
+                        bg.drawImage(y.getElementImage().getSubimage(toMove, 0, y.getElementImage().getWidth() - toMove, y.getElementImage().getHeight()), y.getX(), y.getY(), null);
+                    } else if (y.getX() + 25 > getWidth() && getWidth() - y.getX() > 0) {
+                        bg.drawImage(y.getElementImage().getSubimage(0, 0, getWidth() - y.getX(), y.getElementImage().getHeight()), y.getX(), y.getY(), null);
+                    } else {
+                        bg.drawImage(y.getElementImage(), y.getX(), y.getY(), null);
+                    }
+                    //}
                 }
             }
-            else if(leftPressed) {
-                r.setX(r.getX() + toMove);
-                /*if(r instanceof Ampelius) {
-                    r.setX(r.getX()-2);
-                }
-            }
-            else if(downPressed) {
-                r.setY(r.getY() + toMoveY);
-                /*if(r instanceof Ampelius) {
-                    r.setY(r.getY()+2);
-                }
-            }
-            else if(upPressed) {
-                System.out.println("UP PRESSED");
-                r.setY(r.getY() - toMoveY);
-                /*if(r instanceof Ampelius) {
-                    r.setY(r.getY()-15);
-                }
-            }*/
-            if(r.getX()<getWidth()) {
-                if (r.getX() == finderX) {
-                    bg.drawImage(r.getElementImage().getSubimage(toMove, 0, r.getElementImage().getWidth()-toMove, r.getElementImage().getHeight()), r.getX(), r.getY(), null);
-                } else if (r.getX() + 25 > getWidth()) {
-                    bg.drawImage(r.getElementImage().getSubimage(0, 0, getWidth() - r.getX(), r.getElementImage().getHeight()), r.getX(), r.getY(), null);
-                } else {
-                    bg.drawImage(r.getElementImage(), r.getX(), r.getY(), null);
-                }
-            }
-            tempX=startColumnX;
-
-        }
-
-        for (int v = 0; v < game.getGeneric().size(); v++) {
-            GameElement t=(GameElement)game.getGeneric().get(v);
-            
-            if(t instanceof Ampelius) {
-                bg.drawImage(t.getElementImage(), t.getX(), t.getY(), null);
+            else {
+                bg.drawImage(r.getElementImage(),r.getX(),r.getY(),null);
             }
         }
+        //Draws Ampelius
+        for (int v = 0; v < game.getGeneric().size(); v++) {
+            GameElement r = (GameElement) game.getGeneric().get(v);
+            if (r instanceof Ampelius) {
+                bg.drawImage(r.getElementImage(), r.getX(), r.getY(), null);
+            }
+        }
+
         g.drawImage(buffer,0,0,null);
     }
 
@@ -126,9 +111,11 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
             }
         }
         if (e.getKeyChar() == 'a') {
+            worldX--;
             game.getGeneric().get(x).setLeft(true);
         }
         else if (e.getKeyChar() == 'd') {
+            worldX++;
             game.getGeneric().get(x).setRight(true);
         }
         else if (e.getKeyChar() == 's') {
@@ -218,6 +205,9 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         for (int y = 0; y < game.getGeneric().size(); y++) {
             game.getGeneric().get(y).update();
         }
+        repaint();
+
+        /*
         Ampelius p=null;
         for (int x = 0; x < game.getGeneric().size(); x++) {
             if(game.getGeneric().get(x) instanceof Ampelius) {
@@ -239,7 +229,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
 
                 }
             }
-        }
+        }*/
     }
 
     /*

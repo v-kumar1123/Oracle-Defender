@@ -61,15 +61,32 @@ public class Ampelius extends GameElement{
     public void setLeft(boolean up){
         this.left=up;
     }
+
+    public boolean isUp() {
+        return up;
+    }
+
+    public boolean isDown() {
+        return down;
+    }
+
+    public boolean isRight() {
+        return right;
+    }
+
+    public boolean isLeft() {
+        return left;
+    }
+
     public void update() {
         if (up) {
-            y -= 2;
+            y -= 3;
         } else if (down) {
-            y += 2;
+            y += 3;
         } else if (left) {
-            x -= 2;
+            x -= 3;
         } else if (right) {
-            x += 2;
+            x += 3;
         }
     }
 
