@@ -76,6 +76,28 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                     //}
                 }
             }
+            if(r instanceof Ampelius&&r.getX()<0&&((Ampelius) r).isLeft()) {
+                r.setX(0);
+                bg.setColor(new Color(100,125,170));
+                bg.fillRect(0,0,getWidth(),getHeight());
+                for(int e=0;e<game.getGeneric().size();e++) {
+                    int finderX = startColumnX * 25;
+                    int toMove = worldX % 25;
+                    int toMoveY = worldY % 25;
+                    GameElement y = (GameElement) game.getGeneric().get(e);
+                    if(!(y instanceof Ampelius)) {
+                        y.setX(y.getX() + toMove);
+                    }
+                    if (y.getX() == finderX) {
+                        bg.drawImage(y.getElementImage().getSubimage(0, 0, y.getElementImage().getWidth() - toMove, y.getElementImage().getHeight()), y.getX(), y.getY(), null);
+                    } else if (y.getX()<0&&y.getX()+y.getWidth()>0) {
+                        bg.drawImage(y.getElementImage().getSubimage(0-y.getX(), 0, y.getWidth() - (0-y.getX()), y.getElementImage().getHeight()), y.getX(), y.getY(), null);
+                    } else {
+                        bg.drawImage(y.getElementImage(), y.getX(), y.getY(), null);
+                    }
+                    //}
+                }
+            }
             else {
                 bg.drawImage(r.getElementImage(),r.getX(),r.getY(),null);
             }
@@ -113,7 +135,9 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
             }
         }
         if (e.getKeyChar() == 'a') {
-            worldX--;
+            if(worldX>0) {
+                worldX--;
+            }
             game.getGeneric().get(x).setLeft(true);
         }
         else if (e.getKeyChar() == 'd') {

@@ -53,6 +53,7 @@ public class OracleDefenderGame {
                     }
                     if (line.charAt(c) == 'P') {
                         LevelOne.add(new Ampelius(25*c, 25*y, new File("C:\\Users\\OTHSCS097\\Desktop\\Oracle-Defender\\Ampelius.png")));
+                        LevelOne.add(new WalkableTile(25*c, 25*y, new File("C:\\Users\\OTHSCS097\\Desktop\\Oracle-Defender\\WalkableTile.png")));
                     }
                 }
             }catch (Exception e) {
