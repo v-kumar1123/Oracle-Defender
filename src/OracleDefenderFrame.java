@@ -53,8 +53,8 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         //Draws World
         for (int v = 0; v < game.getGeneric().size(); v++) {
             GameElement r = (GameElement) game.getGeneric().get(v);
-            if(r instanceof Ampelius&&r.getX()+r.getImageWidth()>=getWidth()) {
-
+            if(r instanceof Ampelius&&r.getX()+r.getImageWidth()>=getWidth()&&((Ampelius) r).isRight()) {
+                r.setX((int)(getWidth()-r.getRect().getWidth()));
                 bg.setColor(new Color(100,125,170));
                 bg.fillRect(0,0,getWidth(),getHeight());
                 for(int e=0;e<game.getGeneric().size();e++) {
@@ -62,7 +62,9 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                     int toMove = worldX % 25;
                     int toMoveY = worldY % 25;
                     GameElement y = (GameElement) game.getGeneric().get(e);
-                    //if(!(y instanceof Ampelius)) {
+                    if(!(y instanceof Ampelius)) {
+                        y.setX(y.getX() - toMove);
+                    }
                     if (y.getX() == finderX) {
                         System.out.println("GAME WILL SCROLL");
                         bg.drawImage(y.getElementImage().getSubimage(toMove, 0, y.getElementImage().getWidth() - toMove, y.getElementImage().getHeight()), y.getX(), y.getY(), null);
