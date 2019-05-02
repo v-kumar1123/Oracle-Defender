@@ -14,14 +14,22 @@ public class Ampelius extends GameElement{
 
     public void setX(int x) {
         this.x = x;
+
+        updateRectangle();
     }
 
     public void setY(int y) {
+
+        updateRectangle();
         this.y = y;
+
+        updateRectangle();
     }
 
     @Override
     public int getX() {
+
+        updateRectangle();
         return x;
     }
 
@@ -46,6 +54,7 @@ public class Ampelius extends GameElement{
         super.setElementImage(image);
         this.imageHeight=image.getHeight();
         this.imageWidth=image.getWidth();
+        super.setRect(new Rectangle(x,y,imageWidth,imageHeight));
     }
 
 
@@ -88,6 +97,7 @@ public class Ampelius extends GameElement{
         } else if (right) {
             x += 2;
         }
+        updateRectangle();
     }
 
     @Override
@@ -102,6 +112,10 @@ public class Ampelius extends GameElement{
 
     public BufferedImage getImage() {
         return image;
+    }
+
+    public void setTheRect() {
+        setRect(new Rectangle(x,y,width,height));
     }
 
     public void stop() {

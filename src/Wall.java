@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -38,6 +39,8 @@ public class Wall extends GameElement{
         super.setElementImage(image);
         this.imageHeight=image.getHeight();
         this.imageWidth=image.getWidth();
+
+        setRect(new Rectangle(x,y,imageWidth,imageHeight));
     }
 
     @Override

@@ -32,7 +32,7 @@ public class OracleDefenderGame {
     public void levelOneLoader() {
         Scanner k=null;
         try {
-            k = new Scanner(new File("C:\\Users\\varun\\Desktop\\Oracle-Defender\\World1Level1"));
+            k = new Scanner(new File("C:\\Users\\othscs097\\Desktop\\Oracle-Defender\\CollisionTest"));
         }catch (FileNotFoundException e ) {
             e.printStackTrace();
         }
@@ -45,15 +45,14 @@ public class OracleDefenderGame {
             try {
                 for (int c = 0; c < line.length(); c++) {
                     if (line.charAt(c) == 'W') {
-                        System.out.println("\t\t\t\tI ADDED A WALL");
-                        LevelOne.add(new Wall(25 * c, 25 * y, new File("C:\\Users\\varun\\Desktop\\Oracle-Defender\\Wall.png")));
+                        LevelOne.add(new Wall(25 * c, 25 * y, new File("C:\\Users\\OTHSCS097\\Desktop\\Oracle-Defender\\Wall.png")));
                     }
                     if (line.charAt(c) == 'T') {
-                        LevelOne.add(new WalkableTile(25 * c, 25 * y, new File("C:\\Users\\varun\\Desktop\\Oracle-Defender\\WalkableTile.png")));;
+                        LevelOne.add(new WalkableTile(25 * c, 25 * y, new File("C:\\Users\\OTHSCS097\\Desktop\\Oracle-Defender\\WalkableTile.png")));;
                     }
                     if (line.charAt(c) == 'P') {
-                        LevelOne.add(new Ampelius(25*c, 25*y, new File("C:\\Users\\varun\\Desktop\\Oracle-Defender\\Ampelius.png")));
-                        LevelOne.add(new WalkableTile(25*c, 25*y, new File("C:\\Users\\varun\\Desktop\\Oracle-Defender\\WalkableTile.png")));
+                        LevelOne.add(new Ampelius(25*c, 25*y, new File("C:\\Users\\OTHSCS097\\Desktop\\Oracle-Defender\\Ampelius.png")));
+                        LevelOne.add(new WalkableTile(25*c, 25*y, new File("C:\\Users\\OTHSCS097\\Desktop\\Oracle-Defender\\WalkableTile.png")));
                     }
                 }
             }catch (Exception e) {

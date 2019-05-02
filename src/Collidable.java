@@ -28,12 +28,13 @@ public class Collidable {
     }
 
     public BufferedImage convertFileToImage() {
+        BufferedImage b=null;
         try {
-            return ImageIO.read(file);
+            b= ImageIO.read(file);
         }catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return b;
     }
 
     public Rectangle getRect() {
@@ -62,5 +63,9 @@ public class Collidable {
     public void setDown(boolean up){}
     public void setRight(boolean up){}
     public void setLeft(boolean up){}
+
+    public String toString() {
+        return rect.getX()+", "+rect.getY()+", "+rect.getWidth()+", "+rect.getHeight();
+    }
 
 }

@@ -231,13 +231,33 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
     }
 
     public void update() {
-
         Ampelius ampelius=null;
         for (int y = 0; y < game.getGeneric().size(); y++) {
             if(game.getGeneric().get(y) instanceof Ampelius) {
                 ampelius = (Ampelius) game.getGeneric().get(y);
             }
             game.getGeneric().get(y).update();
+        }
+        System.out.println(ampelius.getRect());
+        for(int g=0;g<game.getGeneric().size();g++) {
+            if(game.getGeneric().get(g) instanceof Wall&&game.getGeneric().get(g).getRect().getX()>ampelius.getX()) {
+                System.out.println("\t\t\t\t\t\t\t\t\t"+game.getGeneric().get(g));
+            }
+            if(ampelius.collidesWith(game.getGeneric().get(g))&&game.getGeneric().get(g) instanceof Wall) {
+                System.out.println("HI. I HAVE COLLIDED WITH A WALL");
+                Collidable c = game.getGeneric().get(g);
+                if (ampelius.isUp()) {
+                    ampelius.setY((int) c.getRect().getY() + (int) c.getRect().getHeight());
+                } else if (ampelius.isDown()) {
+                    ampelius.setY((int) c.getRect().getY() - (int) ampelius.getRect().getHeight());
+                } else if (ampelius.isLeft()) {
+                    ampelius.setX((int) c.getRect().getX() + (int) c.getRect().getWidth());
+                } else if (ampelius.isRight()) {
+                    ampelius.setX((int) c.getRect().getX() - (int) ampelius.getRect().getWidth());
+                } else {
+
+                }
+            }
         }
 
         //Todo 5.1.19: FIND OUT WHAT'S WRONG WITH THIS CODE

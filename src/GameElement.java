@@ -1,4 +1,5 @@
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +43,7 @@ public class GameElement extends Collidable  {
         this.y = y;
         this.convertToImage=convertToImage;
         elementImage=super.convertFileToImage();
+        setRect(new Rectangle(x,y,(int)(elementImage.getWidth()),(int)(elementImage.getHeight())));
 
     }
 
