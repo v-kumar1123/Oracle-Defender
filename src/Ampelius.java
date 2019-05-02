@@ -80,13 +80,13 @@ public class Ampelius extends GameElement{
 
     public void update() {
         if (up) {
-            y -= 3;
+            y -= 2;
         } else if (down) {
-            y += 3;
+            y += 2;
         } else if (left) {
-            x -= 3;
+            x -= 2;
         } else if (right) {
-            x += 3;
+            x += 2;
         }
     }
 
@@ -102,5 +102,12 @@ public class Ampelius extends GameElement{
 
     public BufferedImage getImage() {
         return image;
+    }
+
+    public void stop() {
+        up=false;
+        down=false;
+        left=false;
+        right=false;
     }
 }

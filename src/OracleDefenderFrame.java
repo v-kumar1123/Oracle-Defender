@@ -53,20 +53,21 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         //Draws World
         for (int v = 0; v < game.getGeneric().size(); v++) {
             GameElement r = (GameElement) game.getGeneric().get(v);
-            if(r instanceof Ampelius&&r.getX()+r.getImageWidth()>=getWidth()&&((Ampelius) r).isRight()) {
-                r.setX((int)(getWidth()-r.getRect().getWidth()));
+            if(r instanceof Ampelius&&((Ampelius) r).isRight()) {
+                if(r.getX()+r.getImageWidth()>=getWidth()) {
+                    r.setX((int) (getWidth() - r.getRect().getWidth()));
+                }
                 bg.setColor(new Color(100,125,170));
                 bg.fillRect(0,0,getWidth(),getHeight());
                 for(int e=0;e<game.getGeneric().size();e++) {
                     int finderX = startColumnX * 25;
-                    int toMove = worldX % 25;
+                    int toMove = /*worldX % 25*/3;
                     int toMoveY = worldY % 25;
                     GameElement y = (GameElement) game.getGeneric().get(e);
                     if(!(y instanceof Ampelius)) {
                         y.setX(y.getX() - toMove);
                     }
                     if (y.getX() == finderX) {
-                        System.out.println("GAME WILL SCROLL");
                         bg.drawImage(y.getElementImage().getSubimage(toMove, 0, y.getElementImage().getWidth() - toMove, y.getElementImage().getHeight()), y.getX(), y.getY(), null);
                     } else if (y.getX() + 25 > getWidth() && getWidth() - y.getX() > 0) {
                         bg.drawImage(y.getElementImage().getSubimage(0, 0, getWidth() - y.getX(), y.getElementImage().getHeight()), y.getX(), y.getY(), null);
@@ -76,13 +77,15 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                     //}
                 }
             }
-            if(r instanceof Ampelius&&r.getX()<0&&((Ampelius) r).isLeft()) {
-                r.setX(0);
+            if(r instanceof Ampelius&&((Ampelius) r).isLeft()) {
+                if(r.getX()<0) {
+                    r.setX(0);
+                }
                 bg.setColor(new Color(100,125,170));
                 bg.fillRect(0,0,getWidth(),getHeight());
                 for(int e=0;e<game.getGeneric().size();e++) {
                     int finderX = startColumnX * 25;
-                    int toMove = worldX % 25;
+                    int toMove = /*worldX % 25*/3;
                     int toMoveY = worldY % 25;
                     GameElement y = (GameElement) game.getGeneric().get(e);
                     if(!(y instanceof Ampelius)) {
@@ -228,9 +231,48 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
     }
 
     public void update() {
+
+        Ampelius ampelius=null;
         for (int y = 0; y < game.getGeneric().size(); y++) {
+            if(game.getGeneric().get(y) instanceof Ampelius) {
+                ampelius = (Ampelius) game.getGeneric().get(y);
+            }
             game.getGeneric().get(y).update();
         }
+
+        //Todo 5.1.19: FIND OUT WHAT'S WRONG WITH THIS CODE
+        /*for (int y = 0; y < game.getGeneric().size(); y++) {
+            if(game.getGeneric().get(y) instanceof Wall) {
+                System.out.println("I FOUND A WALL");
+            }
+            if(ampelius.getRect().intersects(game.getGeneric().get(y).getRect())&&!(game.getGeneric().get(y) instanceof Ampelius&&game.getGeneric().get(y) instanceof Wall)) {
+                Collidable c = game.getGeneric().get(y);
+
+                System.out.println("\t\t\t\t\t\tI HAVE COLLIDED");
+                System.out.println("\t\t\t\t\t\t STOP");
+                if (ampelius.up) {
+                    ampelius.setY((int) c.getRect().getY() + (int) c.getRect().getHeight());
+                } else if (ampelius.down) {
+                    ampelius.setY((int) c.getRect().getY() - (int) ampelius.getRect().getHeight());
+                } else if (ampelius.left) {
+                    ampelius.setX((int) c.getRect().getX() + (int) c.getRect().getWidth());
+                } else if (ampelius.right) {
+                    ampelius.setX((int) c.getRect().getX() - (int) ampelius.getRect().getWidth());
+                } else {
+
+                }
+                ampelius.stop();
+
+            }
+
+            game.getGeneric().get(y).update();
+
+        }*/
+
+        
+        /*
+         */
+        
         repaint();
 
         /*
