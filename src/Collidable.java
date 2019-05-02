@@ -8,10 +8,15 @@ import java.io.IOException;
 public class Collidable {
     private Rectangle rect=null;
 
+    ImageTools2 tools=new ImageTools2();
+    int width=0;
+    int height=0;
     BufferedImage image=null;
 
     File file=null;
 
+    int x=0;
+    int y=0;
     public Collidable(Rectangle rect) {
         this.rect = rect;
     }
@@ -21,10 +26,42 @@ public class Collidable {
         this.rect = new Rectangle(x,y,width,height);
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+
     public Collidable(int x, int y, File file) {
         this.file=file;
         image=convertFileToImage();
+        this.x=x;
+        this.y=y;
         this.rect = new Rectangle(x,y,image.getWidth(),image.getHeight());
+        width=(int)rect.getWidth();
+        height=(int)rect.getHeight();
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     public BufferedImage convertFileToImage() {
@@ -37,10 +74,24 @@ public class Collidable {
         return b;
     }
 
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public BufferedImage getElementImage() {
+        return image;
+    }
+    public void setY(int y) {
+        this.y = y;
+    }
+
     public Rectangle getRect() {
         return rect;
     }
 
+    public int getImageWidth() {
+        return image.getWidth();
+    }
     public void setRect(Rectangle rect) {
         this.rect = rect;
     }

@@ -39,11 +39,11 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         setVisible(true);
         setResizable(false);
 
+        game.setLevelOne();
         Thread t=new Thread(this);
         t.start();
     }
     public void paint(Graphics g) {
-        game.setLevelOne();
         Graphics bg=buffer.getGraphics();
         bg.setColor(new Color(100,125,170));
         bg.fillRect(0,0,getWidth(),getHeight());
@@ -52,7 +52,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         int startColumnX = worldX / 25;
         //Draws World
         for (int v = 0; v < game.getGeneric().size(); v++) {
-            GameElement r = (GameElement) game.getGeneric().get(v);
+            Collidable r = (Collidable) game.getGeneric().get(v);
             if(r instanceof Ampelius&&((Ampelius) r).isRight()) {
                 if(r.getX()+r.getImageWidth()>=getWidth()) {
                     r.setX((int) (getWidth() - r.getRect().getWidth()));
@@ -63,7 +63,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                     int finderX = startColumnX * 25;
                     int toMove = /*worldX % 25*/3;
                     int toMoveY = worldY % 25;
-                    GameElement y = (GameElement) game.getGeneric().get(e);
+                    Collidable y = (Collidable) game.getGeneric().get(e);
                     if(!(y instanceof Ampelius)) {
                         y.setX(y.getX() - toMove);
                     }
@@ -87,7 +87,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                     int finderX = startColumnX * 25;
                     int toMove = /*worldX % 25*/3;
                     int toMoveY = worldY % 25;
-                    GameElement y = (GameElement) game.getGeneric().get(e);
+                    Collidable y = (Collidable) game.getGeneric().get(e);
                     if(!(y instanceof Ampelius)) {
                         y.setX(y.getX() + toMove);
                     }
@@ -107,7 +107,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         }
         //Draws Ampelius
         for (int v = 0; v < game.getGeneric().size(); v++) {
-            GameElement r = (GameElement) game.getGeneric().get(v);
+            Collidable r = (Collidable) game.getGeneric().get(v);
             if (r instanceof Ampelius) {
                 bg.drawImage(r.getElementImage(), r.getX(), r.getY(), null);
             }
@@ -234,28 +234,33 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         Ampelius ampelius=null;
         for (int y = 0; y < game.getGeneric().size(); y++) {
             if(game.getGeneric().get(y) instanceof Ampelius) {
-                ampelius = (Ampelius) game.getGeneric().get(y);
+                game.getGeneric().get(y).setRect(new Rectangle(((Ampelius) game.getGeneric().get(y)).getX(),((Ampelius) game.getGeneric().get(y)).getY(),50,50));
+                ampelius=(Ampelius)game.getGeneric().get(y);
+            }
+            if(game.getGeneric().get(y) instanceof Wall||game.getGeneric().get(y) instanceof WalkableTile) {
+                game.getGeneric().get(y).setRect(new Rectangle((int)game.getGeneric().get(y).getRect().getX(), (int)game.getGeneric().get(y).getRect().getY(),25,25));
+
+                System.out.println("\t\t\t\tITS YABOI"+game.getGeneric().get(y));
             }
             game.getGeneric().get(y).update();
         }
-        System.out.println(ampelius.getRect());
+        //System.out.println("HI. I am Ampelius"+ampelius);
         for(int g=0;g<game.getGeneric().size();g++) {
-            if(game.getGeneric().get(g) instanceof Wall&&game.getGeneric().get(g).getRect().getX()>ampelius.getX()) {
-                System.out.println("\t\t\t\t\t\t\t\t\t"+game.getGeneric().get(g));
-            }
-            if(ampelius.collidesWith(game.getGeneric().get(g))&&game.getGeneric().get(g) instanceof Wall) {
+            if(ampelius.collidesWith(game.getGeneric().get(g))&&!(game.getGeneric().get(g) instanceof Ampelius)) {
                 System.out.println("HI. I HAVE COLLIDED WITH A WALL");
-                Collidable c = game.getGeneric().get(g);
-                if (ampelius.isUp()) {
-                    ampelius.setY((int) c.getRect().getY() + (int) c.getRect().getHeight());
-                } else if (ampelius.isDown()) {
-                    ampelius.setY((int) c.getRect().getY() - (int) ampelius.getRect().getHeight());
-                } else if (ampelius.isLeft()) {
-                    ampelius.setX((int) c.getRect().getX() + (int) c.getRect().getWidth());
-                } else if (ampelius.isRight()) {
-                    ampelius.setX((int) c.getRect().getX() - (int) ampelius.getRect().getWidth());
-                } else {
+                if(game.getGeneric().get(g) instanceof Wall) {
+                    Collidable c = game.getGeneric().get(g);
+                    if (ampelius.isUp()) {
+                        ampelius.setY((int) c.getRect().getY() + (int) c.getRect().getHeight());
+                    } else if (ampelius.isDown()) {
+                        ampelius.setY((int) c.getRect().getY() - (int) ampelius.getRect().getHeight());
+                    } else if (ampelius.isLeft()) {
+                        ampelius.setX((int) c.getRect().getX() + (int) c.getRect().getWidth());
+                    } else if (ampelius.isRight()) {
+                        ampelius.setX((int) c.getRect().getX() - (int) ampelius.getRect().getWidth());
+                    } else {
 
+                    }
                 }
             }
         }

@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class Ampelius extends GameElement{
+public class Ampelius extends Collidable{
     int imageWidth=0;
     int imageHeight=0;
     BufferedImage image=null;
@@ -26,7 +26,6 @@ public class Ampelius extends GameElement{
         updateRectangle();
     }
 
-    @Override
     public int getX() {
 
         updateRectangle();
@@ -37,7 +36,6 @@ public class Ampelius extends GameElement{
         setRect(new Rectangle(x,y,width,height));
     }
 
-    @Override
     public int getY() {
         return y;
     }
@@ -51,10 +49,12 @@ public class Ampelius extends GameElement{
         this.x=x;
         this.y=y;
         image=convertFileToImage();
-        super.setElementImage(image);
         this.imageHeight=image.getHeight();
         this.imageWidth=image.getWidth();
-        super.setRect(new Rectangle(x,y,imageWidth,imageHeight));
+        setRect(new Rectangle(x,y,imageWidth,imageHeight));
+        super.setImage(image);
+
+        System.out.println("\t\t\t\t\tHEY MY WIDTH IS "+getRect().getWidth()+". MY HEIGHT IS"+getRect().getHeight());
     }
 
 
@@ -100,12 +100,10 @@ public class Ampelius extends GameElement{
         updateRectangle();
     }
 
-    @Override
     public int getImageWidth() {
         return imageWidth;
     }
 
-    @Override
     public int getImageHeight() {
         return imageHeight;
     }

@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class Wall extends GameElement{
+public class Wall extends Collidable{
     int imageWidth=0;
     int imageHeight=0;
     BufferedImage image=null;
@@ -17,12 +17,11 @@ public class Wall extends GameElement{
         this.y = y;
     }
 
-    @Override
     public int getX() {
         return x;
     }
 
-    @Override
+
     public int getY() {
         return y;
     }
@@ -36,19 +35,17 @@ public class Wall extends GameElement{
         this.x=x;
         this.y=y;
         image=super.tools.scale(convertFileToImage(),5.0,5.0);
-        super.setElementImage(image);
         this.imageHeight=image.getHeight();
         this.imageWidth=image.getWidth();
+        super.setImage(image);
 
         setRect(new Rectangle(x,y,imageWidth,imageHeight));
     }
 
-    @Override
     public int getImageWidth() {
         return imageWidth;
     }
 
-    @Override
     public int getImageHeight() {
         return imageHeight;
     }
