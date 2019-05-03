@@ -6,39 +6,11 @@ public class Ampelius extends Collidable{
     int imageWidth=0;
     int imageHeight=0;
     BufferedImage image=null;
-    int x,y,width,height,startX,startY;
+
     boolean up=false;
     boolean down=false;
     boolean right=false;
     boolean left=false;
-
-    public void setX(int x) {
-        this.x = x;
-
-        updateRectangle();
-    }
-
-    public void setY(int y) {
-
-        updateRectangle();
-        this.y = y;
-
-        updateRectangle();
-    }
-
-    public int getX() {
-
-        updateRectangle();
-        return x;
-    }
-
-    public void updateRectangle(){
-        setRect(new Rectangle(x,y,width,height));
-    }
-
-    public int getY() {
-        return y;
-    }
 
     /*public WalkableTile(File convertToImage, int imageWidth, int imageHeight) {
             super(convertToImage, imageWidth, imageHeight);
@@ -46,8 +18,6 @@ public class Ampelius extends Collidable{
         }*/
     public Ampelius(int x, int y,File file) {
         super(x,y,file);
-        this.x=x;
-        this.y=y;
         image=convertFileToImage();
         this.imageHeight=image.getHeight();
         this.imageWidth=image.getWidth();
@@ -89,15 +59,14 @@ public class Ampelius extends Collidable{
 
     public void update() {
         if (up) {
-            y -= 2;
+            setRect(new Rectangle((int)getRect().getX(),(int)(getRect().getY()-2),(int)getRect().getWidth(),(int)getRect().getHeight()));
         } else if (down) {
-            y += 2;
+            setRect(new Rectangle((int)getRect().getX(),(int)(getRect().getY()+2),(int)getRect().getWidth(),(int)getRect().getHeight()));
         } else if (left) {
-            x -= 2;
+            setRect(new Rectangle((int)(getRect().getX()-2),(int)(getRect().getY()),(int)getRect().getWidth(),(int)getRect().getHeight()));
         } else if (right) {
-            x += 2;
+            setRect(new Rectangle((int)(getRect().getX()+2),(int)(getRect().getY()),(int)getRect().getWidth(),(int)getRect().getHeight()));
         }
-        updateRectangle();
     }
 
     public int getImageWidth() {
@@ -112,9 +81,6 @@ public class Ampelius extends Collidable{
         return image;
     }
 
-    public void setTheRect() {
-        setRect(new Rectangle(x,y,width,height));
-    }
 
     public void stop() {
         up=false;

@@ -50,68 +50,63 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         int tempX=0;
 
         int startColumnX = worldX / 25;
+        if(game.getPlayer().isRight()) {
+            Collidable r=game.getPlayer();
+            if(r.getRect().getX()+r.getImageWidth()>=getWidth()) {
+                r.setRect(new Rectangle((int) (getWidth() - r.getRect().getWidth()), (int)r.getRect().getY(),(int)r.getRect().getWidth(),(int)r.getRect().getHeight()));
+            }
+            bg.setColor(new Color(100,125,170));
+            bg.fillRect(0,0,getWidth(),getHeight());
+            for(int e=0;e<game.getGeneric().size();e++) {
+                int finderX = startColumnX * 25;
+                int toMove = /*worldX % 25*/3;
+                int toMoveY = worldY % 25;
+                Collidable y = (Collidable) game.getGeneric().get(e);
+                if(!(y instanceof Ampelius)) {
+                    y.setRect(new Rectangle((int)(y.getRect().getX() - toMove),(int)r.getRect().getY(),(int)r.getRect().getWidth(),(int)r.getRect().getHeight()));
+                }
+                if (y.getRect().getX() == finderX) {
+                    bg.drawImage(y.getElementImage().getSubimage(toMove, 0, y.getElementImage().getWidth() - toMove, y.getElementImage().getHeight()), (int)y.getRect().getX(), (int)y.getRect().getY(), null);
+                } else if (y.getRect().getX() + 25 > getWidth() && getWidth() - y.getRect().getX() > 0) {
+                    bg.drawImage(y.getElementImage().getSubimage(0, 0, getWidth() - (int)y.getRect().getX(), y.getElementImage().getHeight()), (int)y.getRect().getX(), (int)y.getRect().getY(), null);
+                } else {
+                    bg.drawImage(y.getElementImage(), (int)y.getRect().getX(), (int)y.getRect().getY(), null);
+                }
+                //}
+            }
+        }
+        if(game.getPlayer().isLeft()) {
+            Collidable r=game.getPlayer();
+            if(r.getRect().getX()<0) {
+                r.setRect(new Rectangle(0,(int)r.getRect().getY(),(int)r.getRect().getWidth(),(int)r.getRect().getHeight()));
+            }
+            bg.setColor(new Color(100,125,170));
+            bg.fillRect(0,0,getWidth(),getHeight());
+            for(int e=0;e<game.getGeneric().size();e++) {
+                int finderX = startColumnX * 25;
+                int toMove = /*worldX % 25*/3;
+                int toMoveY = worldY % 25;
+                Collidable y = (Collidable) game.getGeneric().get(e);
+                if(!(y instanceof Ampelius)) {
+                    y.setRect(new Rectangle((int)y.getRect().getX() + toMove,(int)r.getRect().getY(),(int)r.getRect().getWidth(),(int)r.getRect().getHeight()));
+                }
+                if (y.getRect().getX() == finderX) {
+                    bg.drawImage(y.getElementImage().getSubimage(0, 0, y.getElementImage().getWidth() - toMove, y.getElementImage().getHeight()), (int)y.getRect().getX(), (int)y.getRect().getY(), null);
+                } else if (y.getRect().getX()<0&&y.getRect().getX()+y.getRect().getWidth()>0) {
+                    bg.drawImage(y.getElementImage().getSubimage((int)(0-y.getRect().getX()), 0, (int)(y.getRect().getWidth() - (0-y.getRect().getX())), y.getElementImage().getHeight()), (int)y.getRect().getX(), (int)y.getRect().getY(), null);
+                } else {
+                    bg.drawImage(y.getElementImage(), (int)y.getRect().getX(), (int)y.getRect().getY(), null);
+                }
+                //}
+            }
+        }
+
+
         //Draws World
-        for (int v = 0; v < game.getGeneric().size(); v++) {
-            Collidable r = (Collidable) game.getGeneric().get(v);
-            if(r instanceof Ampelius&&((Ampelius) r).isRight()) {
-                if(r.getX()+r.getImageWidth()>=getWidth()) {
-                    r.setX((int) (getWidth() - r.getRect().getWidth()));
-                }
-                bg.setColor(new Color(100,125,170));
-                bg.fillRect(0,0,getWidth(),getHeight());
-                for(int e=0;e<game.getGeneric().size();e++) {
-                    int finderX = startColumnX * 25;
-                    int toMove = /*worldX % 25*/3;
-                    int toMoveY = worldY % 25;
-                    Collidable y = (Collidable) game.getGeneric().get(e);
-                    if(!(y instanceof Ampelius)) {
-                        y.setX(y.getX() - toMove);
-                    }
-                    if (y.getX() == finderX) {
-                        bg.drawImage(y.getElementImage().getSubimage(toMove, 0, y.getElementImage().getWidth() - toMove, y.getElementImage().getHeight()), y.getX(), y.getY(), null);
-                    } else if (y.getX() + 25 > getWidth() && getWidth() - y.getX() > 0) {
-                        bg.drawImage(y.getElementImage().getSubimage(0, 0, getWidth() - y.getX(), y.getElementImage().getHeight()), y.getX(), y.getY(), null);
-                    } else {
-                        bg.drawImage(y.getElementImage(), y.getX(), y.getY(), null);
-                    }
-                    //}
-                }
-            }
-            if(r instanceof Ampelius&&((Ampelius) r).isLeft()) {
-                if(r.getX()<0) {
-                    r.setX(0);
-                }
-                bg.setColor(new Color(100,125,170));
-                bg.fillRect(0,0,getWidth(),getHeight());
-                for(int e=0;e<game.getGeneric().size();e++) {
-                    int finderX = startColumnX * 25;
-                    int toMove = /*worldX % 25*/3;
-                    int toMoveY = worldY % 25;
-                    Collidable y = (Collidable) game.getGeneric().get(e);
-                    if(!(y instanceof Ampelius)) {
-                        y.setX(y.getX() + toMove);
-                    }
-                    if (y.getX() == finderX) {
-                        bg.drawImage(y.getElementImage().getSubimage(0, 0, y.getElementImage().getWidth() - toMove, y.getElementImage().getHeight()), y.getX(), y.getY(), null);
-                    } else if (y.getX()<0&&y.getX()+y.getWidth()>0) {
-                        bg.drawImage(y.getElementImage().getSubimage(0-y.getX(), 0, y.getWidth() - (0-y.getX()), y.getElementImage().getHeight()), y.getX(), y.getY(), null);
-                    } else {
-                        bg.drawImage(y.getElementImage(), y.getX(), y.getY(), null);
-                    }
-                    //}
-                }
-            }
-            else {
-                bg.drawImage(r.getElementImage(),r.getX(),r.getY(),null);
-            }
-        }
         //Draws Ampelius
-        for (int v = 0; v < game.getGeneric().size(); v++) {
-            Collidable r = (Collidable) game.getGeneric().get(v);
-            if (r instanceof Ampelius) {
-                bg.drawImage(r.getElementImage(), r.getX(), r.getY(), null);
-            }
-        }
+      
+        bg.drawImage(game.getPlayer().getElementImage(), (int)game.getPlayer().getRect().getX(), (int)game.getPlayer().getRect().getY(), null);
+         
 
         g.drawImage(buffer,0,0,null);
     }
@@ -119,7 +114,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
     public void drawLevelOne(Graphics g) {
         for(int x=0;x<game.getGeneric().size();x++) {
             GameElement element=(GameElement)game.getGeneric().get(x);
-            g.drawImage(element.getElementImage(), element.getX(), element.getY(), null);
+            g.drawImage(element.getElementImage(), (int)element.getRect().getX(), element.getY(), null);
         }
         gameBeginning=false;
     }
@@ -131,27 +126,22 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
 
     @Override
     public void keyPressed(KeyEvent e) {
-        int x=0;
-        for(;x<game.getGeneric().size();x++) {
-            if (game.getGeneric().get(x) instanceof Ampelius) {
-                break;
-            }
-        }
+
         if (e.getKeyChar() == 'a') {
             if(worldX>0) {
                 worldX--;
             }
-            game.getGeneric().get(x).setLeft(true);
+            game.getPlayer().setLeft(true);
         }
         else if (e.getKeyChar() == 'd') {
             worldX++;
-            game.getGeneric().get(x).setRight(true);
+            game.getPlayer().setRight(true);
         }
         else if (e.getKeyChar() == 's') {
-            game.getGeneric().get(x).setDown(true);
+            game.getPlayer().setDown(true);
         }
         else if (e.getKeyChar() == 'w') {
-            game.getGeneric().get(x).setUp(true);
+            game.getPlayer().setUp(true);
         }
         /*if(e.getKeyChar()=='D'||e.getKeyChar()=='d') {
             if(worldX+getWidth()<game.levelWidth) {
@@ -206,60 +196,45 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
     @Override
     public void keyReleased(KeyEvent e) {
         int x=0;
-        for(;x<game.getGeneric().size();x++) {
-            if (game.getGeneric().get(x) instanceof Ampelius) {
-                break;
-            }
-        }
+
         if (e.getKeyChar() == 'a') {
-            game.getGeneric().get(x).setLeft(false);
+            game.getPlayer().setLeft(false);
         }
         else if (e.getKeyChar() == 'd') {
-            game.getGeneric().get(x).setRight(false);
+            game.getPlayer().setRight(false);
         }
         else if (e.getKeyChar() == 's') {
-            game.getGeneric().get(x).setDown(false);
+            game.getPlayer().setDown(false);
         }
         else if (e.getKeyChar() == 'w') {
-            game.getGeneric().get(x).setUp(false);
+            game.getPlayer().setUp(false);
         }
         else {
             //System.out.println(game.getGeneric().get(x).getRect().getY());
-            //game.getGeneric().get(x).getRect().setRect((int)game.getGeneric().get(x).getRect().getX(),(int)((game.getGeneric().get(x).getRect().getY())-2),(int)game.getGeneric().get(x).getRect().getWidth(),(int)game.getGeneric().get(x).getRect().getHeight());
+            //game.getGeneric().get(x).getRect().setRect((int)game.getGeneric().get(x).getRect().getRect().getX(),(int)((game.getGeneric().get(x).getRect().getY())-2),(int)game.getGeneric().get(x).getRect().getWidth(),(int)game.getGeneric().get(x).getRect().getHeight());
             //System.out.println(game.getGeneric().get(x).getRect().getY());
         }
     }
 
     public void update() {
-        Ampelius ampelius=null;
-        for (int y = 0; y < game.getGeneric().size(); y++) {
-            if(game.getGeneric().get(y) instanceof Ampelius) {
-                game.getGeneric().get(y).setRect(new Rectangle(((Ampelius) game.getGeneric().get(y)).getX(),((Ampelius) game.getGeneric().get(y)).getY(),50,50));
-                ampelius=(Ampelius)game.getGeneric().get(y);
-            }
-            if(game.getGeneric().get(y) instanceof Wall||game.getGeneric().get(y) instanceof WalkableTile) {
-                game.getGeneric().get(y).setRect(new Rectangle((int)game.getGeneric().get(y).getRect().getX(), (int)game.getGeneric().get(y).getRect().getY(),25,25));
 
-                System.out.println("\t\t\t\tITS YABOI"+game.getGeneric().get(y));
-            }
+        for (int y = 0; y < game.getGeneric().size(); y++) {
             game.getGeneric().get(y).update();
         }
         //System.out.println("HI. I am Ampelius"+ampelius);
         for(int g=0;g<game.getGeneric().size();g++) {
-            if(ampelius.collidesWith(game.getGeneric().get(g))&&!(game.getGeneric().get(g) instanceof Ampelius)) {
+            if(game.getPlayer().collidesWith(game.getGeneric().get(g))) {
                 System.out.println("HI. I HAVE COLLIDED WITH A WALL");
                 if(game.getGeneric().get(g) instanceof Wall) {
                     Collidable c = game.getGeneric().get(g);
-                    if (ampelius.isUp()) {
-                        ampelius.setY((int) c.getRect().getY() + (int) c.getRect().getHeight());
-                    } else if (ampelius.isDown()) {
-                        ampelius.setY((int) c.getRect().getY() - (int) ampelius.getRect().getHeight());
-                    } else if (ampelius.isLeft()) {
-                        ampelius.setX((int) c.getRect().getX() + (int) c.getRect().getWidth());
-                    } else if (ampelius.isRight()) {
-                        ampelius.setX((int) c.getRect().getX() - (int) ampelius.getRect().getWidth());
-                    } else {
-
+                    if (game.getPlayer().isUp()) {
+                        game.getPlayer().setRect(new Rectangle((int)game.getPlayer().getRect().getX(),(int) c.getRect().getY() + (int) c.getRect().getHeight(),(int)game.getPlayer().getRect().getWidth(),(int)game.getPlayer().getRect().getHeight()));
+                    } else if (game.getPlayer().isDown()) {
+                        game.getPlayer().setRect(new Rectangle((int)game.getPlayer().getRect().getX(),(int) c.getRect().getY() - (int) game.getPlayer().getRect().getHeight(),(int)game.getPlayer().getRect().getWidth(),(int)game.getPlayer().getRect().getHeight()));
+                    } else if (game.getPlayer().isLeft()) {
+                        game.getPlayer().setRect(new Rectangle((int) c.getRect().getX() + (int) c.getRect().getWidth(),(int) c.getRect().getY(),(int)game.getPlayer().getRect().getWidth(),(int)game.getPlayer().getRect().getHeight()));
+                    } else if (game.getPlayer().isRight()) {
+                        game.getPlayer().setRect(new Rectangle((int) c.getRect().getX() - (int) game.getPlayer().getRect().getWidth(),(int) c.getRect().getY(),(int)game.getPlayer().getRect().getWidth(),(int)game.getPlayer().getRect().getHeight()));
                     }
                 }
             }
@@ -280,9 +255,9 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                 } else if (ampelius.down) {
                     ampelius.setY((int) c.getRect().getY() - (int) ampelius.getRect().getHeight());
                 } else if (ampelius.left) {
-                    ampelius.setX((int) c.getRect().getX() + (int) c.getRect().getWidth());
+                    ampelius.setX((int) c.getRect().getRect().getX() + (int) c.getRect().getWidth());
                 } else if (ampelius.right) {
-                    ampelius.setX((int) c.getRect().getX() - (int) ampelius.getRect().getWidth());
+                    ampelius.setX((int) c.getRect().getRect().getX() - (int) ampelius.getRect().getWidth());
                 } else {
 
                 }
@@ -315,9 +290,9 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                 } else if (p.down) {
                     p.setY((int) c.getRect().getY() - (int) p.getRect().getHeight());
                 } else if (p.left) {
-                    p.setX((int) c.getRect().getX() + (int) c.getRect().getWidth());
+                    p.setX((int) c.getRect().getRect().getX() + (int) c.getRect().getWidth());
                 } else if (p.right) {
-                    p.setX((int) c.getRect().getX() - (int) p.getRect().getWidth());
+                    p.setX((int) c.getRect().getRect().getX() - (int) p.getRect().getWidth());
                 } else {
 
                 }
@@ -331,9 +306,9 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                         } else if (p.down) {
                             p.setY((int) c.getRect().getY() - (int) p.getRect().getHeight());
                         } else if (p.left) {
-                            p.setX((int) c.getRect().getX() + (int) c.getRect().getWidth());
+                            p.setX((int) c.getRect().getRect().getX() + (int) c.getRect().getWidth());
                         } else if (p.right) {
-                            p.setX((int) c.getRect().getX() - (int) p.getRect().getWidth());
+                            p.setX((int) c.getRect().getRect().getX() - (int) p.getRect().getWidth());
                         } else {
 
                         }
