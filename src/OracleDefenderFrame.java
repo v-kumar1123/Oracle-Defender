@@ -18,10 +18,10 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
     int worldX=0;
     int worldWidth=game.levelWidth;
     int worldHeight=game.levelWidth;
-    boolean rightPressed=false;
-    boolean upPressed=false;
-    boolean downPressed=false;
-    boolean leftPressed=false;
+    boolean rightHit=false;
+    boolean upHit=false;
+    boolean downHit=false;
+    boolean leftHit=false;
     int worldY=0;
     BufferedImage buffer=null;
     public static final int UPS=60;
@@ -111,18 +111,30 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                 worldX--;
             }
             game.getPlayer().setLeft(true);
+            rightHit=false;
+            upHit=false;
+            downHit=false;
         }
         else if (e.getKeyChar() == 'd') {
             worldX++;
             game.getPlayer().setRight(true);
+            upHit=false;
+            downHit=false;
+            leftHit=false;
         }
         else if (e.getKeyChar() == 's') {
             worldY++;
             game.getPlayer().setDown(true);
+            rightHit=false;
+            upHit=false;
+            leftHit=false;
         }
         else if (e.getKeyChar() == 'w') {
             worldY--;
             game.getPlayer().setUp(true);
+            rightHit=false;
+            downHit=false;
+            leftHit=false;
         }
     }
 
@@ -160,34 +172,38 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         //System.out.println("HI. I am Ampelius"+ampelius);
         for(int g=0;g<game.getGeneric().size();g++) {
             if(game.getPlayer().collidesWith(game.getGeneric().get(g))&&!(game.getGeneric().get(g) instanceof WalkableTile)) {
-                touchingObstacle=true;
                 if(game.getGeneric().get(g) instanceof Wall) {
                     Collidable c = game.getGeneric().get(g);
                     if (game.getPlayer().isUp()) {
+                        upHit=true;
                         game.getPlayer().setRect(new Rectangle((int)game.getPlayer().getRect().getX(),(int) c.getRect().getY() + (int) c.getRect().getHeight(),(int)game.getPlayer().getRect().getWidth(),(int)game.getPlayer().getRect().getHeight()));
                     } else if (game.getPlayer().isDown()) {
+                        downHit=true;
                         game.getPlayer().setRect(new Rectangle((int)game.getPlayer().getRect().getX(),(int) c.getRect().getY() - (int) game.getPlayer().getRect().getHeight(),(int)game.getPlayer().getRect().getWidth(),(int)game.getPlayer().getRect().getHeight()));
                     } else if (game.getPlayer().isLeft()) {
+                        leftHit=true;
+                        System.out.println("IM HITTING LEFT BOI");
                         game.getPlayer().setRect(new Rectangle((int) c.getRect().getX() + (int) c.getRect().getWidth(),(int) c.getRect().getY(),(int)game.getPlayer().getRect().getWidth(),(int)game.getPlayer().getRect().getHeight()));
                     } else if (game.getPlayer().isRight()) {
+                        rightHit=true;
                         game.getPlayer().setRect(new Rectangle((int) c.getRect().getX() - (int) game.getPlayer().getRect().getWidth(),(int) c.getRect().getY(),(int)game.getPlayer().getRect().getWidth(),(int)game.getPlayer().getRect().getHeight()));
                     }
                 }
                 break;
             }
-        }
+        }/*
         //CHECKS TO SEE IF AMPELIUS IS COLLIDNG WITH ANYTHING, IF NOT SETS TOUCHING OBSTACLE TO FALSE
         for(int x=0;x<game.getGeneric().size();x++) {
             if(game.getPlayer().collidesWith(game.getGeneric().get(x))&&!(game.getGeneric().get(x) instanceof WalkableTile)) {
-                System.out.println("I'M TOUCHING!!!");
                 touchingObstacle=true;
                 break;
             }
-        }
+        }*/
+
+        touchingObstacle=false;
 
         //If player is moving right and not touching an obstacle
-         if(game.getPlayer().isRight()&&!touchingObstacle) {
-             System.out.println("I HAVE REACHED A BANANA");
+         if(game.getPlayer().isRight()&&!rightHit) {
             if(r.getRect().getX()+r.getImageWidth()>=getWidth()) {
                 r.setRect(new Rectangle((int) (getWidth() - r.getRect().getWidth()), (int)r.getRect().getY(),(int)r.getRect().getWidth(),(int)r.getRect().getHeight()));
             }
@@ -201,7 +217,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
             }
         }
         //If player is moving LEFT and not touching an obstacle
-        if(game.getPlayer().isLeft()&&!touchingObstacle) {
+        if(game.getPlayer().isLeft()&&!leftHit) {
             if(r.getRect().getX()-r.getImageWidth()<0) {
                 r.setRect(new Rectangle(0, (int)r.getRect().getY(),(int)r.getRect().getWidth(),(int)r.getRect().getHeight()));
             }
@@ -215,7 +231,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
             }
         }
         //If player is moving down and not touching an obstacle
-        if(game.getPlayer().isDown()&&!touchingObstacle) {
+        if(game.getPlayer().isDown()&&!downHit) {
             if(r.getRect().getY()+r.getRect().getHeight()>=getHeight()) {
                 r.setRect(new Rectangle((int)r.getRect().getX(), (int)getHeight()-(int)r.getRect().getY(),(int)r.getRect().getWidth(),(int)r.getRect().getHeight()));
             }
@@ -229,7 +245,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
             }
         }
         //If player is moving up and not touching an obstacle
-        if(game.getPlayer().isUp()&&!touchingObstacle) {
+        if(game.getPlayer().isUp()&&!upHit) {
             if(r.getRect().getY()-r.getRect().getHeight()<0) {
                 r.setRect(new Rectangle((int)r.getRect().getX(), 0,(int)r.getRect().getWidth(),(int)r.getRect().getHeight()));
             }
