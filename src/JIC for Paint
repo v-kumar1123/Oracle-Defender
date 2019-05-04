@@ -1,0 +1,46 @@
+//Draws Scrolling
+        int startColumnX = worldX / 25;
+        if(game.getPlayer().isRight()) {
+            Collidable r=game.getPlayer();
+            for(int e=0;e<game.getGeneric().size();e++) {
+                int finderX = startColumnX * 25;
+                int toMove = 3;
+                int toMoveY = worldY % 25;
+                Collidable y = (Collidable) game.getGeneric().get(e);
+
+                if (y.getRect().getX() == finderX) {
+                    bg.drawImage(y.getElementImage().getSubimage(toMove, 0, y.getElementImage().getWidth() - toMove, y.getElementImage().getHeight()), (int)y.getRect().getX(), (int)y.getRect().getY(), null);
+                } else if (y.getRect().getX() + 25 > getWidth() && getWidth() - y.getRect().getX() > 0) {
+                    bg.drawImage(y.getElementImage().getSubimage(0, 0, getWidth() - (int)y.getRect().getX(), y.getElementImage().getHeight()), (int)y.getRect().getX(), (int)y.getRect().getY(), null);
+                } else {
+                    bg.drawImage(y.getElementImage(), (int)y.getRect().getX(), (int)y.getRect().getY(), null);
+                }
+                //}
+            }
+        }
+
+        //IF PLAYER IS GOING LEFT
+        if(game.getPlayer().isLeft()) {
+            Collidable r=game.getPlayer();
+            if(r.getRect().getX()<0) {
+                r.setRect(new Rectangle(0,(int)r.getRect().getY(),(int)r.getRect().getWidth(),(int)r.getRect().getHeight()));
+            }
+            bg.setColor(new Color(100,125,170));
+            bg.fillRect(0,0,getWidth(),getHeight());
+            for(int e=0;e<game.getGeneric().size();e++) {
+                int finderX = startColumnX * 25;
+                int toMove = /*worldX % 25*/3;
+                int toMoveY = worldY % 25;
+                Collidable y = (Collidable) game.getGeneric().get(e);
+                if(!(y instanceof Ampelius)) {
+                    y.setRect(new Rectangle((int)y.getRect().getX() + toMove,(int)r.getRect().getY(),(int)r.getRect().getWidth(),(int)r.getRect().getHeight()));
+                }
+                if (y.getRect().getX() == finderX) { } else if (y.getRect().getX()<0&&y.getRect().getX()+y.getRect().getWidth()>0) {
+                    bg.drawImage(y.getElementImage().getSubimage((int)(0-y.getRect().getX()), 0, (int)(y.getRect().getWidth() - (0-y.getRect().getX())), y.getElementImage().getHeight()), (int)y.getRect().getX(), (int)y.getRect().getY(), null);
+                } else {
+                    bg.drawImage(y.getElementImage(), (int)y.getRect().getX(), (int)y.getRect().getY(), null);
+                }
+                //}
+            }
+        }
+

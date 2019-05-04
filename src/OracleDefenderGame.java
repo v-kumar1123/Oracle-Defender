@@ -36,7 +36,7 @@ public class OracleDefenderGame {
     public void levelOneLoader() {
         Scanner k=null;
         try {
-            k = new Scanner(new File("C:\\Users\\OTHSCS097\\Desktop\\Oracle-Defender\\World1Level1"));
+            k = new Scanner(new File("C:\\Users\\varun\\Desktop\\Oracle-Defender\\World1Level1"));
         }catch (FileNotFoundException e ) {
             e.printStackTrace();
         }
@@ -49,15 +49,15 @@ public class OracleDefenderGame {
             try {
                 for (int c = 0; c < line.length(); c++) {
                     if (line.charAt(c) == 'W') {
-                        LevelOne.add(new Wall(25 * c, 25 * y, new File("C:\\Users\\OTHSCS097\\Desktop\\Oracle-Defender\\Wall.png")));
+                        LevelOne.add(new Wall(25 * c, 25 * y, new File("C:\\Users\\varun\\Desktop\\Oracle-Defender\\Wall.png")));
                     }
                     if (line.charAt(c) == 'T') {
-                        LevelOne.add(new WalkableTile(25 * c, 25 * y, new File("C:\\Users\\OTHSCS097\\Desktop\\Oracle-Defender\\WalkableTile.png")));;
+                        LevelOne.add(new WalkableTile(25 * c, 25 * y, new File("C:\\Users\\varun\\Desktop\\Oracle-Defender\\WalkableTile.png")));;
                     }
                     if (line.charAt(c) == 'P') {
-                        player =new Ampelius(25*c, 25*y, new File("C:\\Users\\OTHSCS097\\Desktop\\Oracle-Defender\\Ampelius.png"));
+                        player =new Ampelius(25*c, 25*y, new File("C:\\Users\\varun\\Desktop\\Oracle-Defender\\Ampelius.png"));
                         //System.out.println("I gave ampelius  "+LevelOne.get(LevelOne.size()-1));
-                        //LevelOne.add(new WalkableTile(25*c, 25*y, new File("C:\\Users\\OTHSCS097\\Desktop\\Oracle-Defender\\WalkableTile.png")));
+                        //LevelOne.add(new WalkableTile(25*c, 25*y, new File("C:\\Users\\varun\\Desktop\\Oracle-Defender\\WalkableTile.png")));
                     }
                 }
             }catch (Exception e) {

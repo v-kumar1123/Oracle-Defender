@@ -12,6 +12,8 @@ import java.util.Scanner;
 
 public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable {
     ImageTools2 tools=new ImageTools2();
+
+    boolean touchingObstacle=false;
     OracleDefenderGame game=new OracleDefenderGame();
     int worldX=0;
     int worldWidth=game.levelWidth;
@@ -45,64 +47,41 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
     }
     public void paint(Graphics g) {
         Graphics bg=buffer.getGraphics();
+        int startColumnX=worldX/25;
+        int startColumnY=worldY/25;
+        int finderX=startColumnX*25;
+        int finderY=startColumnY*25;
         bg.setColor(new Color(100,125,170));
         bg.fillRect(0,0,getWidth(),getHeight());
         int tempX=0;
-
-        int startColumnX = worldX / 25;
-        if(game.getPlayer().isRight()) {
-            Collidable r=game.getPlayer();
-            if(r.getRect().getX()+r.getImageWidth()>=getWidth()) {
-                r.setRect(new Rectangle((int) (getWidth() - r.getRect().getWidth()), (int)r.getRect().getY(),(int)r.getRect().getWidth(),(int)r.getRect().getHeight()));
-            }
-            bg.setColor(new Color(100,125,170));
-            bg.fillRect(0,0,getWidth(),getHeight());
-            for(int e=0;e<game.getGeneric().size();e++) {
-                int finderX = startColumnX * 25;
-                int toMove = /*worldX % 25*/3;
-                int toMoveY = worldY % 25;
-                Collidable y = (Collidable) game.getGeneric().get(e);
-                if(!(y instanceof Ampelius)) {
-                    y.setRect(new Rectangle((int)(y.getRect().getX() - toMove),(int)r.getRect().getY(),(int)r.getRect().getWidth(),(int)r.getRect().getHeight()));
+        //Draws world
+        for(int x=0;x<game.getGeneric().size();x++) {
+            Collidable r=game.getGeneric().get(x);
+            if(game.getPlayer().isLeft()||game.getPlayer().isRight()) {
+                if (r.getRect().getX() == finderX) {
+                    bg.drawImage(r.getElementImage().getSubimage(3, 0, r.getElementImage().getWidth() - 3, r.getElementImage().getHeight()), (int) r.getRect().getX(), (int) r.getRect().getY(), null);
                 }
-                if (y.getRect().getX() == finderX) {
-                    bg.drawImage(y.getElementImage().getSubimage(toMove, 0, y.getElementImage().getWidth() - toMove, y.getElementImage().getHeight()), (int)y.getRect().getX(), (int)y.getRect().getY(), null);
-                } else if (y.getRect().getX() + 25 > getWidth() && getWidth() - y.getRect().getX() > 0) {
-                    bg.drawImage(y.getElementImage().getSubimage(0, 0, getWidth() - (int)y.getRect().getX(), y.getElementImage().getHeight()), (int)y.getRect().getX(), (int)y.getRect().getY(), null);
+                else if (r.getRect().getX() + 25 > getWidth() && getWidth() - r.getRect().getX() > 0) {
+                    bg.drawImage(r.getElementImage().getSubimage(0, 0, getWidth() - (int) r.getRect().getX(), r.getElementImage().getHeight()), (int) r.getRect().getX(), (int) r.getRect().getY(), null);
                 } else {
-                    bg.drawImage(y.getElementImage(), (int)y.getRect().getX(), (int)y.getRect().getY(), null);
+                    bg.drawImage(game.getGeneric().get(x).getElementImage(), (int) game.getGeneric().get(x).getRect().getX(), (int) game.getGeneric().get(x).getRect().getY(), null);
                 }
-                //}
             }
-        }
-        if(game.getPlayer().isLeft()) {
-            Collidable r=game.getPlayer();
-            if(r.getRect().getX()<0) {
-                r.setRect(new Rectangle(0,(int)r.getRect().getY(),(int)r.getRect().getWidth(),(int)r.getRect().getHeight()));
-            }
-            bg.setColor(new Color(100,125,170));
-            bg.fillRect(0,0,getWidth(),getHeight());
-            for(int e=0;e<game.getGeneric().size();e++) {
-                int finderX = startColumnX * 25;
-                int toMove = /*worldX % 25*/3;
-                int toMoveY = worldY % 25;
-                Collidable y = (Collidable) game.getGeneric().get(e);
-                if(!(y instanceof Ampelius)) {
-                    y.setRect(new Rectangle((int)y.getRect().getX() + toMove,(int)r.getRect().getY(),(int)r.getRect().getWidth(),(int)r.getRect().getHeight()));
+            else if(game.getPlayer().isUp()||game.getPlayer().isDown()) {
+                if (r.getRect().getY() == finderY) {
+                    bg.drawImage(r.getElementImage().getSubimage(0, 3, r.getElementImage().getWidth(), r.getElementImage().getHeight()-3), (int) r.getRect().getX(), (int) r.getRect().getY(), null);
                 }
-                if (y.getRect().getX() == finderX) {
-                    bg.drawImage(y.getElementImage().getSubimage(0, 0, y.getElementImage().getWidth() - toMove, y.getElementImage().getHeight()), (int)y.getRect().getX(), (int)y.getRect().getY(), null);
-                } else if (y.getRect().getX()<0&&y.getRect().getX()+y.getRect().getWidth()>0) {
-                    bg.drawImage(y.getElementImage().getSubimage((int)(0-y.getRect().getX()), 0, (int)(y.getRect().getWidth() - (0-y.getRect().getX())), y.getElementImage().getHeight()), (int)y.getRect().getX(), (int)y.getRect().getY(), null);
+                else if (r.getRect().getY() + 25 > getHeight() && getHeight() - r.getRect().getY() > 0) {
+                    bg.drawImage(r.getElementImage().getSubimage(0, 0, (int)r.getRect().getWidth(), (int)(getHeight()- r.getRect().getY())), (int) r.getRect().getX(), (int) r.getRect().getY(), null);
                 } else {
-                    bg.drawImage(y.getElementImage(), (int)y.getRect().getX(), (int)y.getRect().getY(), null);
+                    bg.drawImage(game.getGeneric().get(x).getElementImage(), (int) game.getGeneric().get(x).getRect().getX(), (int) game.getGeneric().get(x).getRect().getY(), null);
                 }
-                //}
             }
+            else {
+                bg.drawImage(game.getGeneric().get(x).getElementImage(), (int) game.getGeneric().get(x).getRect().getX(), (int) game.getGeneric().get(x).getRect().getY(), null);
+            }
+
         }
-
-
-        //Draws World
         //Draws Ampelius
       
         bg.drawImage(game.getPlayer().getElementImage(), (int)game.getPlayer().getRect().getX(), (int)game.getPlayer().getRect().getY(), null);
@@ -138,59 +117,13 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
             game.getPlayer().setRight(true);
         }
         else if (e.getKeyChar() == 's') {
+            worldY++;
             game.getPlayer().setDown(true);
         }
         else if (e.getKeyChar() == 'w') {
+            worldY--;
             game.getPlayer().setUp(true);
         }
-        /*if(e.getKeyChar()=='D'||e.getKeyChar()=='d') {
-            if(worldX+getWidth()<game.levelWidth) {
-                worldX++;
-            }
-
-            rightPressed=true;
-            leftPressed=false;
-            upPressed=false;
-            downPressed=false;
-            repaint();
-        }
-        else if(e.getKeyChar()=='A'||e.getKeyChar()=='a') {
-            if(worldX>=0) {
-                worldX--;
-            }
-
-            rightPressed=false;
-            leftPressed=true;
-            upPressed=false;
-            downPressed=false;
-            repaint();
-        }
-
-        else if(e.getKeyChar()=='W'||e.getKeyChar()=='w') {
-            System.out.println(worldY+"");
-            if(worldY<game.levelHeight) {
-                worldY--;
-            }
-
-            rightPressed=false;
-            leftPressed=false;
-            upPressed=true;
-            downPressed=false;
-            repaint();
-        }
-
-        else if(e.getKeyChar()=='S'||e.getKeyChar()=='s') {
-            if(worldY>=0) {
-                worldY++;
-            }
-
-            rightPressed=false;
-            leftPressed=false;
-            upPressed=false;
-            downPressed=true;
-
-            repaint();
-        }*/
     }
 
     @Override
@@ -217,14 +150,17 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
     }
 
     public void update() {
-
         for (int y = 0; y < game.getGeneric().size(); y++) {
             game.getGeneric().get(y).update();
         }
+        Collidable r=game.getPlayer();
+
+
+
         //System.out.println("HI. I am Ampelius"+ampelius);
         for(int g=0;g<game.getGeneric().size();g++) {
-            if(game.getPlayer().collidesWith(game.getGeneric().get(g))) {
-                System.out.println("HI. I HAVE COLLIDED WITH A WALL");
+            if(game.getPlayer().collidesWith(game.getGeneric().get(g))&&!(game.getGeneric().get(g) instanceof WalkableTile)) {
+                touchingObstacle=true;
                 if(game.getGeneric().get(g) instanceof Wall) {
                     Collidable c = game.getGeneric().get(g);
                     if (game.getPlayer().isUp()) {
@@ -237,67 +173,77 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                         game.getPlayer().setRect(new Rectangle((int) c.getRect().getX() - (int) game.getPlayer().getRect().getWidth(),(int) c.getRect().getY(),(int)game.getPlayer().getRect().getWidth(),(int)game.getPlayer().getRect().getHeight()));
                     }
                 }
+                break;
             }
         }
-
-        //Todo 5.1.19: FIND OUT WHAT'S WRONG WITH THIS CODE
-        /*for (int y = 0; y < game.getGeneric().size(); y++) {
-            if(game.getGeneric().get(y) instanceof Wall) {
-                System.out.println("I FOUND A WALL");
-            }
-            if(ampelius.getRect().intersects(game.getGeneric().get(y).getRect())&&!(game.getGeneric().get(y) instanceof Ampelius&&game.getGeneric().get(y) instanceof Wall)) {
-                Collidable c = game.getGeneric().get(y);
-
-                System.out.println("\t\t\t\t\t\tI HAVE COLLIDED");
-                System.out.println("\t\t\t\t\t\t STOP");
-                if (ampelius.up) {
-                    ampelius.setY((int) c.getRect().getY() + (int) c.getRect().getHeight());
-                } else if (ampelius.down) {
-                    ampelius.setY((int) c.getRect().getY() - (int) ampelius.getRect().getHeight());
-                } else if (ampelius.left) {
-                    ampelius.setX((int) c.getRect().getRect().getX() + (int) c.getRect().getWidth());
-                } else if (ampelius.right) {
-                    ampelius.setX((int) c.getRect().getRect().getX() - (int) ampelius.getRect().getWidth());
-                } else {
-
-                }
-                ampelius.stop();
-
-            }
-
-            game.getGeneric().get(y).update();
-
-        }*/
-
-        
-        /*
-         */
-        
-        repaint();
-
-        /*
-        Ampelius p=null;
-        for (int x = 0; x < game.getGeneric().size(); x++) {
-            if(game.getGeneric().get(x) instanceof Ampelius) {
-                p=(Ampelius)game.getGeneric().get(x);
-            }
-        }
+        //CHECKS TO SEE IF AMPELIUS IS COLLIDNG WITH ANYTHING, IF NOT SETS TOUCHING OBSTACLE TO FALSE
         for(int x=0;x<game.getGeneric().size();x++) {
-            if(game.getGeneric().get(x) instanceof Wall&&p.collidesWith(game.getGeneric().get(x))) {
-                Collidable c= game.getGeneric().get(x);
-                if (p.up) {
-                    p.setY((int) c.getRect().getY() + (int) c.getRect().getHeight());
-                } else if (p.down) {
-                    p.setY((int) c.getRect().getY() - (int) p.getRect().getHeight());
-                } else if (p.left) {
-                    p.setX((int) c.getRect().getRect().getX() + (int) c.getRect().getWidth());
-                } else if (p.right) {
-                    p.setX((int) c.getRect().getRect().getX() - (int) p.getRect().getWidth());
-                } else {
+            if(game.getPlayer().collidesWith(game.getGeneric().get(x))&&!(game.getGeneric().get(x) instanceof WalkableTile)) {
+                System.out.println("I'M TOUCHING!!!");
+                touchingObstacle=true;
+                break;
+            }
+        }
 
+        //If player is moving right and not touching an obstacle
+         if(game.getPlayer().isRight()&&!touchingObstacle) {
+             System.out.println("I HAVE REACHED A BANANA");
+            if(r.getRect().getX()+r.getImageWidth()>=getWidth()) {
+                r.setRect(new Rectangle((int) (getWidth() - r.getRect().getWidth()), (int)r.getRect().getY(),(int)r.getRect().getWidth(),(int)r.getRect().getHeight()));
+            }
+            for(int x=0;x<game.getGeneric().size();x++) {
+                int toMove = 3;
+                Collidable y=game.getGeneric().get(x);
+                if(!(y instanceof Ampelius)&&!touchingObstacle) {
+                    y.setRect(new Rectangle((int)(y.getRect().getX() - toMove),(int)y.getRect().getY(),(int)y.getRect().getWidth(),(int)y.getRect().getHeight()));
+                    //System.out.println("HERE's My New X"+r.getRect().getX());
                 }
             }
-        }*/
+        }
+        //If player is moving LEFT and not touching an obstacle
+        if(game.getPlayer().isLeft()&&!touchingObstacle) {
+            if(r.getRect().getX()-r.getImageWidth()<0) {
+                r.setRect(new Rectangle(0, (int)r.getRect().getY(),(int)r.getRect().getWidth(),(int)r.getRect().getHeight()));
+            }
+            for(int x=0;x<game.getGeneric().size();x++) {
+                int toMove = 3;
+                Collidable y=game.getGeneric().get(x);
+                if(!(y instanceof Ampelius)&&!touchingObstacle) {
+                    y.setRect(new Rectangle((int)(y.getRect().getX() + toMove),(int)y.getRect().getY(),(int)y.getRect().getWidth(),(int)y.getRect().getHeight()));
+                    //System.out.println("HERE's My New X"+r.getRect().getX());
+                }
+            }
+        }
+        //If player is moving down and not touching an obstacle
+        if(game.getPlayer().isDown()&&!touchingObstacle) {
+            if(r.getRect().getY()+r.getRect().getHeight()>=getHeight()) {
+                r.setRect(new Rectangle((int)r.getRect().getX(), (int)getHeight()-(int)r.getRect().getY(),(int)r.getRect().getWidth(),(int)r.getRect().getHeight()));
+            }
+            for(int x=0;x<game.getGeneric().size();x++) {
+                int toMove = 3;
+                Collidable y=game.getGeneric().get(x);
+                if(!(y instanceof Ampelius)&&!touchingObstacle) {
+                    y.setRect(new Rectangle((int)(y.getRect().getX()),(int)y.getRect().getY()-toMove,(int)y.getRect().getWidth(),(int)y.getRect().getHeight()));
+                    //System.out.println("HERE's My New X"+r.getRect().getX());
+                }
+            }
+        }
+        //If player is moving up and not touching an obstacle
+        if(game.getPlayer().isUp()&&!touchingObstacle) {
+            if(r.getRect().getY()-r.getRect().getHeight()<0) {
+                r.setRect(new Rectangle((int)r.getRect().getX(), 0,(int)r.getRect().getWidth(),(int)r.getRect().getHeight()));
+            }
+            for(int x=0;x<game.getGeneric().size();x++) {
+                int toMove = 3;
+                Collidable y=game.getGeneric().get(x);
+                if(!(y instanceof Ampelius)&&!touchingObstacle) {
+                    y.setRect(new Rectangle((int)(y.getRect().getX()),(int)y.getRect().getY()+toMove,(int)y.getRect().getWidth(),(int)y.getRect().getHeight()));
+                    //System.out.println("HERE's My New X"+r.getRect().getX());
+                }
+            }
+        }
+
+        repaint();
     }
 
     /*
