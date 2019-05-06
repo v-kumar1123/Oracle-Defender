@@ -278,13 +278,15 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
 
             if(game.getGeneric().get(y) instanceof LaserRect) {
                 if(((LaserRect) game.getGeneric().get(y)).getShootDecide()%120==0) {
-                    game.getGeneric().add(new Laser((int)game.getGeneric().get(y).getRect().getX()-50,(int)game.getGeneric().get(y).getRect().getY()+6,new File("Laser.png")));
+                    game.getGeneric().add(new Laser((int)game.getGeneric().get(y).getRect().getX()-50,(int)game.getGeneric().get(y).getRect().getY()+20,new File("Laser.png")));
                     if(((LaserRect) game.getGeneric().get(y)).directionRight) {
                         ((Laser)game.getGeneric().get(game.getGeneric().size()-1)).setRight(true);
                     }
                     else {
                         ((Laser)game.getGeneric().get(game.getGeneric().size()-1)).setLeft(true);
                     }
+
+                    ((Laser)game.getGeneric().get(game.getGeneric().size()-1)).setSpeed(7);
                 }
             }
         }

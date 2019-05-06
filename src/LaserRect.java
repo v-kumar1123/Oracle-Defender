@@ -11,17 +11,19 @@ public class LaserRect extends Collidable {
     int x=0;
     int shootDecide=0;
     int y=0;
+    int speed=0;
     boolean directionRight=false;
     /*public WalkableTile(File convertToImage, int imageWidth, int imageHeight) {
         super(convertToImage, imageWidth, imageHeight);
         image=super.getElementImage();
     }*/
-    public LaserRect(int x, int y, File file, boolean directionRight) {
+    public LaserRect(int x, int y, File file, boolean directionRight, int speed) {
         super(x,y,file);
         this.x=x;
+        this.speed=speed;
         this.directionRight=directionRight;
         this.y=y;
-        image=super.tools.scale(convertFileToImage(),5.0,5.0);
+        image=super.tools.scale(convertFileToImage(),10.0,10.0);
         this.imageHeight=image.getHeight();
         this.imageWidth=image.getWidth();
         setRect(new Rectangle(x,y,imageWidth,imageHeight));

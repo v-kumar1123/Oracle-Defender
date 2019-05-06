@@ -6,6 +6,7 @@ public class Laser extends Collidable {
     int imageWidth=0;
     int imageHeight=0;
     BufferedImage image=null;
+    int speed=0;
 
     @Override
     public void setLeft(boolean left) {
@@ -15,6 +16,14 @@ public class Laser extends Collidable {
     @Override
     public void setRight(boolean right) {
         this.right = right;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     public static int widthOfImage=50;
@@ -45,12 +54,12 @@ public class Laser extends Collidable {
 
     public void update() {
         if(left) {
-            setRect(new Rectangle((int)getRect().getX()-3,(int)getRect().getY(),(int)getRect().getWidth(),(int)getRect().getHeight()));
+            setRect(new Rectangle((int)getRect().getX()-speed,(int)getRect().getY(),(int)getRect().getWidth(),(int)getRect().getHeight()));
         }
 
 
         if(right) {
-            setRect(new Rectangle((int)getRect().getX()+3,(int)getRect().getY(),(int)getRect().getWidth(),(int)getRect().getHeight()));
+            setRect(new Rectangle((int)getRect().getX()+speed,(int)getRect().getY(),(int)getRect().getWidth(),(int)getRect().getHeight()));
         }
     }
 }
