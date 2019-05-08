@@ -235,7 +235,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         //System.out.println("HI. I am Ampelius"+ampelius);
         for(int g=0;g<game.getGeneric().size();g++) {
             if((game.getPlayer().collidesWith(game.getGeneric().get(g)))&&!(game.getGeneric().get(g) instanceof WalkableTile)) {
-                if(game.getGeneric().get(g) instanceof Wall||game.getGeneric().get(g) instanceof LaserRect) {
+                if(game.getGeneric().get(g) instanceof Wall||game.getGeneric().get(g) instanceof LaserRect||game.getGeneric().get(g) instanceof VerticalLaserRect||game.getGeneric().get(g) instanceof VerticalLaserAlternate||game.getGeneric().get(g) instanceof AlternatingLaser) {
                     Collidable c = game.getGeneric().get(g);
                     if (game.getPlayer().isUp()) {
                         upHit=true;
@@ -262,7 +262,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                 }
 
                 //TODO 5/7/19: Figure out how to restart
-                if(game.getGeneric().get(g) instanceof Laser) {
+                if(game.getGeneric().get(g) instanceof Laser||game.getGeneric().get(g) instanceof VerticalLaser) {
                     System.out.println("HEYY");
                     restart=true;
                     break;
@@ -299,6 +299,55 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                     }
 
                     ((Laser)game.getGeneric().get(game.getGeneric().size()-1)).setSpeed(6);
+                }
+            }
+
+            if(game.getGeneric().get(y) instanceof VerticalLaserRect) {
+                if(((VerticalLaserRect) game.getGeneric().get(y)).getShootDecide()%120==0) {
+                    if(((VerticalLaserRect) game.getGeneric().get(y)).directionUp) {
+                        game.getGeneric().add(new VerticalLaser((int)game.getGeneric().get(y).getRect().getX()+20,(int)game.getGeneric().get(y).getRect().getY()-50,new File("VerticalRect.png")));
+                        ((VerticalLaser)game.getGeneric().get(game.getGeneric().size()-1)).setUp(true);
+                    }
+                    else {
+                        game.getGeneric().add(new VerticalLaser((int)game.getGeneric().get(y).getRect().getX()+20,(int)game.getGeneric().get(y).getRect().getY()+50,new File("VerticalRect.png")));
+                        ((VerticalLaser)game.getGeneric().get(game.getGeneric().size()-1)).setDown(true);
+                    }
+
+                    ((VerticalLaser)game.getGeneric().get(game.getGeneric().size()-1)).setSpeed(7);
+                }
+            }
+
+            if(game.getGeneric().get(y) instanceof AlternatingLaser) {
+                if(((AlternatingLaser) game.getGeneric().get(y)).getShootDecide()%70==0) {
+                    if(((AlternatingLaser) game.getGeneric().get(y)).directionRight) {
+                        game.getGeneric().add(new Laser((int)game.getGeneric().get(y).getRect().getX()+50,(int)game.getGeneric().get(y).getRect().getY()+20,new File("Laser.png")));
+                        ((Laser)game.getGeneric().get(game.getGeneric().size()-1)).setRight(true);
+                        ((AlternatingLaser) game.getGeneric().get(y)).setDirectionRight(false);
+                    }
+                    else {
+                        game.getGeneric().add(new Laser((int)game.getGeneric().get(y).getRect().getX()-50,(int)game.getGeneric().get(y).getRect().getY()+20,new File("Laser.png")));
+                        ((Laser)game.getGeneric().get(game.getGeneric().size()-1)).setLeft(true);
+                        ((AlternatingLaser) game.getGeneric().get(y)).setDirectionRight(true);
+                    }
+
+                    ((Laser)game.getGeneric().get(game.getGeneric().size()-1)).setSpeed(7);
+                }
+            }
+
+            if(game.getGeneric().get(y) instanceof VerticalLaserAlternate) {
+                if(((VerticalLaserAlternate) game.getGeneric().get(y)).getShootDecide()%20==0) {
+                    if(((VerticalLaserAlternate) game.getGeneric().get(y)).directionUp) {
+                        game.getGeneric().add(new VerticalLaser((int)game.getGeneric().get(y).getRect().getX()+20,(int)game.getGeneric().get(y).getRect().getY()-50,new File("VerticalRect.png")));
+                        ((VerticalLaser)game.getGeneric().get(game.getGeneric().size()-1)).setUp(true);
+                        ((VerticalLaserAlternate) game.getGeneric().get(y)).setDirectionUp(false);
+                    }
+                    else {
+                        game.getGeneric().add(new VerticalLaser((int)game.getGeneric().get(y).getRect().getX()+20,(int)game.getGeneric().get(y).getRect().getY()+50,new File("VerticalRect.png")));
+                        ((VerticalLaser)game.getGeneric().get(game.getGeneric().size()-1)).setDown(true);
+                        ((VerticalLaserAlternate) game.getGeneric().get(y)).setDirectionUp(true);
+                    }
+
+                    ((VerticalLaser)game.getGeneric().get(game.getGeneric().size()-1)).setSpeed(7);
                 }
             }
         }

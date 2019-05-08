@@ -36,7 +36,7 @@ public class Laser extends Collidable {
         super(x,y,file);
         this.x=x;
         this.y=y;
-        image=super.tools.scale(convertFileToImage(),10.0,5.0);
+        image=super.tools.scale(convertFileToImage(),7.0,5.0);
         this.imageHeight=image.getHeight();
         this.imageWidth=image.getWidth();
         widthOfImage=imageWidth;
