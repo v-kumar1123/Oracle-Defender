@@ -286,7 +286,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                         ((Laser)game.getGeneric().get(game.getGeneric().size()-1)).setLeft(true);
                     }
 
-                    ((Laser)game.getGeneric().get(game.getGeneric().size()-1)).setSpeed(7);
+                    ((Laser)game.getGeneric().get(game.getGeneric().size()-1)).setSpeed(6);
                 }
             }
         }
