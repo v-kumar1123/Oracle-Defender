@@ -66,6 +66,28 @@ public class OracleDefenderGame {
                     if(line.charAt(c)== 'O') {
                         LevelOne.add(new LaserRect(25 * c, 25 * y, new File("C:\\Users\\othscs097\\Desktop\\Oracle-Defender\\LaserRect.png"),true,3));
                     }
+                    if(line.charAt(c)=='F') {
+                        LevelOne.add(new VerticalLaserRect(25 * c, 25 * y, new File("C:\\Users\\othscs097\\Desktop\\Oracle-Defender\\LaserRect.png"),true,3));
+                    }
+
+                    if(line.charAt(c)=='V') {
+                        LevelOne.add(new VerticalLaserRect(25 * c, 25 * y, new File("C:\\Users\\othscs097\\Desktop\\Oracle-Defender\\LaserRect.png"),false,3));
+                    }
+
+                    if(line.charAt(c)=='A') {
+                        LevelOne.add(new AlternatingLaser(25 * c, 25 * y, new File("C:\\Users\\othscs097\\Desktop\\Oracle-Defender\\LaserRect.png"),false,3));
+                    }
+
+
+                    if(line.charAt(c)=='H') {
+                        LevelOne.add(new VerticalLaserAlternate(25 * c, 25 * y, new File("C:\\Users\\othscs097\\Desktop\\Oracle-Defender\\LaserRect.png"),false,3));
+                    }
+
+                    if(line.charAt(c)=='R') {
+                        LevelOne.add(new Rotater(25 * c, 25 * y, new File("C:\\Users\\othscs097\\Desktop\\Oracle-Defender\\Laser.png"),false,3));
+                    }
+
+
             }
             }catch (Exception e) {
                 e.printStackTrace();
