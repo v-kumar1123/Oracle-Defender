@@ -6,6 +6,8 @@ public class Ampelius extends Collidable{
     int imageWidth=0;
     int imageHeight=0;
     BufferedImage image=null;
+    int startX=0;
+    int startY=0;
 
     boolean up=false;
     boolean down=false;
@@ -23,8 +25,12 @@ public class Ampelius extends Collidable{
         this.imageWidth=image.getWidth();
         setRect(new Rectangle(x,y,imageWidth,imageHeight));
         super.setImage(image);
+        this.startX=x;
+        this.startY=y;
+    }
 
-        System.out.println("\t\t\t\t\tHEY MY WIDTH IS "+getRect().getWidth()+". MY HEIGHT IS"+getRect().getHeight());
+    public void restart() {
+        setRect(new Rectangle(startX,startY,(int)getRect().getWidth(),(int)getRect().getHeight()));
     }
 
 

@@ -22,6 +22,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
     boolean upHit=false;
     boolean downHit=false;
     boolean leftHit=false;
+    boolean restart=false;
     int worldY=0;
     BufferedImage buffer=null;
     public static final int UPS=60;
@@ -40,7 +41,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         setUndecorated(true);
         setVisible(true);
         setResizable(false);
-
+        boolean restart=false;
         game.setLevelOne();
         Thread t=new Thread(this);
         t.start();
@@ -55,6 +56,10 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         bg.setColor(Color.BLACK);
         bg.fillRect(0,0,getWidth(),getHeight());
         int tempX=0;
+        if(restart) {
+            game.reset();
+            restart=false;
+        }
         //Draws world
         for(int x=0;x<game.getGeneric().size();x++) {
             Collidable r=game.getGeneric().get(x);
@@ -62,7 +67,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                 if (r.getRect().getX() == finderX) {
                     bg.drawImage(r.getElementImage().getSubimage(toMove, 0, r.getElementImage().getWidth() - toMove, r.getElementImage().getHeight()), (int) r.getRect().getX(), (int) r.getRect().getY(), null);
                 }
-                else if (r.getRect().getX() + 25 > getWidth() && getWidth() - r.getRect().getX() > 0) {
+                else if (r.getRect().getX() + r.getRect().getWidth() > getWidth() && getWidth() - r.getRect().getX() > 0) {
                     bg.drawImage(r.getElementImage().getSubimage(0, 0, getWidth() - (int) r.getRect().getX(), r.getElementImage().getHeight()), (int) r.getRect().getX(), (int) r.getRect().getY(), null);
                 } else {
                     bg.drawImage(game.getGeneric().get(x).getElementImage(), (int) game.getGeneric().get(x).getRect().getX(), (int) game.getGeneric().get(x).getRect().getY(), null);
@@ -72,7 +77,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                 if (r.getRect().getY() == finderY) {
                     bg.drawImage(r.getElementImage().getSubimage(0, toMove, r.getElementImage().getWidth(), r.getElementImage().getHeight()-toMove), (int) r.getRect().getX(), (int) r.getRect().getY(), null);
                 }
-                else if (r.getRect().getY() + 25 > getHeight() && getHeight() - r.getRect().getY() > 0) {
+                else if (r.getRect().getY() + r.getRect().getHeight() > getHeight() && getHeight() - r.getRect().getY() > 0) {
                     bg.drawImage(r.getElementImage().getSubimage(0, 0, (int)r.getRect().getWidth(), (int)(getHeight()- r.getRect().getY())), (int) r.getRect().getX(), (int) r.getRect().getY(), null);
                 } else {
                     bg.drawImage(game.getGeneric().get(x).getElementImage(), (int) game.getGeneric().get(x).getRect().getX(), (int) game.getGeneric().get(x).getRect().getY(), null);
@@ -86,7 +91,6 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         //Draws Ampelius
       
         bg.drawImage(game.getPlayer().getElementImage(), (int)game.getPlayer().getRect().getX(), (int)game.getPlayer().getRect().getY(), null);
-         
 
         g.drawImage(buffer,0,0,null);
     }
@@ -231,7 +235,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         //System.out.println("HI. I am Ampelius"+ampelius);
         for(int g=0;g<game.getGeneric().size();g++) {
             if((game.getPlayer().collidesWith(game.getGeneric().get(g)))&&!(game.getGeneric().get(g) instanceof WalkableTile)) {
-                if(game.getGeneric().get(g) instanceof Wall) {
+                if(game.getGeneric().get(g) instanceof Wall||game.getGeneric().get(g) instanceof LaserRect) {
                     Collidable c = game.getGeneric().get(g);
                     if (game.getPlayer().isUp()) {
                         upHit=true;
@@ -256,6 +260,13 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                         return;
                     }
                 }
+
+                //TODO 5/7/19: Figure out how to restart
+                if(game.getGeneric().get(g) instanceof Laser) {
+                    System.out.println("HEYY");
+                    restart=true;
+                    break;
+                }
                 break;
             }
         }/*
@@ -278,11 +289,12 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
 
             if(game.getGeneric().get(y) instanceof LaserRect) {
                 if(((LaserRect) game.getGeneric().get(y)).getShootDecide()%120==0) {
-                    game.getGeneric().add(new Laser((int)game.getGeneric().get(y).getRect().getX()-50,(int)game.getGeneric().get(y).getRect().getY()+20,new File("Laser.png")));
                     if(((LaserRect) game.getGeneric().get(y)).directionRight) {
+                        game.getGeneric().add(new Laser((int)game.getGeneric().get(y).getRect().getX()+50,(int)game.getGeneric().get(y).getRect().getY()+20,new File("Laser.png")));
                         ((Laser)game.getGeneric().get(game.getGeneric().size()-1)).setRight(true);
                     }
                     else {
+                        game.getGeneric().add(new Laser((int)game.getGeneric().get(y).getRect().getX()-50,(int)game.getGeneric().get(y).getRect().getY()+20,new File("Laser.png")));
                         ((Laser)game.getGeneric().get(game.getGeneric().size()-1)).setLeft(true);
                     }
 
