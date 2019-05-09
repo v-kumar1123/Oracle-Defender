@@ -32,7 +32,13 @@ public class Rotater extends Collidable {
 
 
     public void update() {
-        image=super.tools.rotate(image,1);
+        if(shootDecide%40==0) {
+            super.setImage(super.tools.rotate(image, 1));
+
+
+        }
+
+        shootDecide++;
     }
 
     public int getShootDecide() {
