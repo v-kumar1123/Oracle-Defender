@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,8 @@ public class Rotater extends Collidable {
     int shootDecide=0;
     int y=0;
     int speed=0;
+
+    AffineTransform trans = new AffineTransform();
     boolean directionRight=false;
     /*public WalkableTile(File convertToImage, int imageWidth, int imageHeight) {
         super(convertToImage, imageWidth, imageHeight);
@@ -32,8 +35,19 @@ public class Rotater extends Collidable {
 
 
     public void update() {
-        if(shootDecide%40==0) {
-            super.setImage(super.tools.rotate(image, 1));
+        if(shootDecide%120==0) {
+
+            AffineTransform oldtrans = new AffineTransform();
+            System.out.println("I AM ROTATING PLEASE LOVE ME");
+            trans.setToIdentity();
+            /*trans.rotate(Math.toRadians(1), getRect().getWidth()/2, getRect().getHeight()/2);
+            trans.translate(getRect().getX()-(getRect().getWidth()/2), getRect().getY()-(getRect().getHeight()/2));*/
+            trans.rotate(1);
+            //setTransform(trans);
+            //g.drawImage(this.getImage(), (int)_x, (int)_y, (int)width, (int)height, null);
+            setImage(image);
+            //g.setTransform(oldtrans);
+            //super.setImage(super.tools.rotate(image, 1));
 
 
         }
