@@ -26,7 +26,8 @@ public class Rotater extends Collidable {
         this.speed=speed;
         this.directionRight=directionRight;
         this.y=y;
-        image=super.tools.scale(convertFileToImage(),10.0,10.0);
+        image=convertFileToImage();
+        image=super.tools.scale(convertFileToImage(),10.0,5);
         this.imageHeight=image.getHeight();
         this.imageWidth=image.getWidth();
         setRect(new Rectangle(x,y,imageWidth,imageHeight));
@@ -35,24 +36,9 @@ public class Rotater extends Collidable {
 
 
     public void update() {
-        if(shootDecide%120==0) {
-
-            AffineTransform oldtrans = new AffineTransform();
-            System.out.println("I AM ROTATING PLEASE LOVE ME");
-            trans.setToIdentity();
-            /*trans.rotate(Math.toRadians(1), getRect().getWidth()/2, getRect().getHeight()/2);
-            trans.translate(getRect().getX()-(getRect().getWidth()/2), getRect().getY()-(getRect().getHeight()/2));*/
-            trans.rotate(1);
-            //setTransform(trans);
-            //g.drawImage(this.getImage(), (int)_x, (int)_y, (int)width, (int)height, null);
-            setImage(image);
-            //g.setTransform(oldtrans);
-            //super.setImage(super.tools.rotate(image, 1));
-
-
-        }
-
-        shootDecide++;
+        image=tools.rotate(image,90.0);
+        super.setImage(image);
+        //shootDecide++;
     }
 
     public int getShootDecide() {
