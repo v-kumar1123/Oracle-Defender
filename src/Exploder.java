@@ -36,22 +36,24 @@ public class Exploder extends Collidable {
 
 
     public void update() {
-        if(shootDecide%20==0) {
-            if (col >= array[0].length) {
-                col = 0;
-            }
+        /*if(shootDecide%20==0) {
+
             if (row >= array[0].length) {
                 row = 0;
                 col++;
             }
+            if (col >= array.length) {
+                col = 0;
+            }
             image = array[row][col];
+            setRect(new Rectangle(x,y,image.getWidth(),image.getHeight()));
 
             row++;
             col++;
             super.setImage(image);
         }
 
-        shootDecide++;
+        shootDecide++;*/
     }
 
     public int getShootDecide() {

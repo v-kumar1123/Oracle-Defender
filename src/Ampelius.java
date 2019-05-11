@@ -8,11 +8,13 @@ public class Ampelius extends Collidable{
     BufferedImage image=null;
     int startX=0;
     int startY=0;
-
+    int speed=2;
+    int boostLeft=100;
     boolean up=false;
     boolean down=false;
     boolean right=false;
     boolean left=false;
+    int yeet=0;
 
     /*public WalkableTile(File convertToImage, int imageWidth, int imageHeight) {
             super(convertToImage, imageWidth, imageHeight);
@@ -63,15 +65,35 @@ public class Ampelius extends Collidable{
         return left;
     }
 
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public void speedGain() {
+        while(boostLeft<100) {
+            if(yeet%15==0) {
+                boostLeft++;
+            }
+            yeet++;
+        }
+    }
+
     public void update() {
+        /*if(speed>2) {
+            boostLeft--;
+        }
+        if(boostLeft<=0) {
+            boostLeft=0;
+            setSpeed(2);
+        }*/
         if (up) {
-            setRect(new Rectangle((int)getRect().getX(),(int)(getRect().getY()-2),(int)getRect().getWidth(),(int)getRect().getHeight()));
+            setRect(new Rectangle((int)getRect().getX(),(int)(getRect().getY()-speed),(int)getRect().getWidth(),(int)getRect().getHeight()));
         } else if (down) {
-            setRect(new Rectangle((int)getRect().getX(),(int)(getRect().getY()+2),(int)getRect().getWidth(),(int)getRect().getHeight()));
+            setRect(new Rectangle((int)getRect().getX(),(int)(getRect().getY()+speed),(int)getRect().getWidth(),(int)getRect().getHeight()));
         } else if (left) {
-            setRect(new Rectangle((int)(getRect().getX()-2),(int)(getRect().getY()),(int)getRect().getWidth(),(int)getRect().getHeight()));
+            setRect(new Rectangle((int)(getRect().getX()-speed),(int)(getRect().getY()),(int)getRect().getWidth(),(int)getRect().getHeight()));
         } else if (right) {
-            setRect(new Rectangle((int)(getRect().getX()+2),(int)(getRect().getY()),(int)getRect().getWidth(),(int)getRect().getHeight()));
+            setRect(new Rectangle((int)(getRect().getX()+speed),(int)(getRect().getY()),(int)getRect().getWidth(),(int)getRect().getHeight()));
         }
     }
 

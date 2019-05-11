@@ -69,6 +69,9 @@ public class OracleDefenderGame {
                     if(line.charAt(c)=='F') {
                         LevelOne.add(new VerticalLaserRect(25 * c, 25 * y, new File("C:\\Users\\varun\\Desktop\\Oracle-Defender\\LaserRect.png"),true,3));
                     }
+                    if(line.charAt(c)=='M') {
+                        LevelOne.add(new Mine(25 * c, 25 * y, new File("C:\\Users\\varun\\Desktop\\Oracle-Defender\\WalkableTile.png")));
+                    }
 
                     if(line.charAt(c)=='V') {
                         LevelOne.add(new VerticalLaserRect(25 * c, 25 * y, new File("C:\\Users\\varun\\Desktop\\Oracle-Defender\\LaserRect.png"),false,3));
@@ -84,7 +87,7 @@ public class OracleDefenderGame {
                     }
 
                     if(line.charAt(c)=='R') {
-                        LevelOne.add(new Rotater(25 * c, 25 * y, new File("Laser.png"),false,3));
+                        LevelOne.add(new PatternActivator(25 * c, 25 * y, new File("Mine.png")));
                     }
 
                     if(line.charAt(c)=='E') {

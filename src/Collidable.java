@@ -38,7 +38,10 @@ public class Collidable {
 
     }
 
-
+    public void setFile(File file) {
+        this.file = file;
+        image=convertFileToImage();
+    }
 
     public BufferedImage convertFileToImage() {
         BufferedImage b=null;

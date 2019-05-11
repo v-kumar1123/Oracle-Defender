@@ -1,3 +1,4 @@
+import javafx.scene.transform.Rotate;
 import org.ietf.jgss.GSSManager;
 
 import javax.imageio.ImageIO;
@@ -12,7 +13,7 @@ import java.util.Scanner;
 
 public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable {
     ImageTools2 tools=new ImageTools2();
-    int toMove=3;
+    int toMove=4;
     boolean touchingObstacle=false;
     OracleDefenderGame game=new OracleDefenderGame();
     int worldX=0;
@@ -83,17 +84,19 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                     bg.drawImage(game.getGeneric().get(x).getElementImage(), (int) game.getGeneric().get(x).getRect().getX(), (int) game.getGeneric().get(x).getRect().getY(), null);
                 }
             }
-//            else if(r instanceof Rotater) {
-//                Graphics2D g2d=(Graphics2D)g;
-//                g2d.drawImage(((Rotater) r).getImage(),((Rotater) r).trans,null);
-//            }
+            else if(r instanceof Rotater) {
+                bg.drawImage(r.getElementImage(),((Rotater) r).getX(),((Rotater) r).getY(),null);
+            }
             else {
                 bg.drawImage(game.getGeneric().get(x).getElementImage(), (int) game.getGeneric().get(x).getRect().getX(), (int) game.getGeneric().get(x).getRect().getY(), null);
             }
 
         }
-        //Draws Ampelius
-      
+//         ============
+          //          \\
+         //            \\
+        //Draws Ampelius\\
+
         bg.drawImage(game.getPlayer().getElementImage(), (int)game.getPlayer().getRect().getX(), (int)game.getPlayer().getRect().getY(), null);
 
         g.drawImage(buffer,0,0,null);
@@ -114,7 +117,14 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        if(e.getKeyChar()=='l') {
+            System.out.println("BOOST");
+            toMove=7;
+        }
+        if(e.getKeyChar()=='i') {
+            System.out.println("\t\t\t\tYou're about to glitch the game");
+            toMove=150;
+        }
         if (e.getKeyChar() == 'a') {
             if(worldX>0) {
                 worldX--;
@@ -166,6 +176,15 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         if (e.getKeyChar() == 'a') {
             game.getPlayer().setLeft(false);
         }
+        else if(e.getKeyChar()=='l') {
+            game.getPlayer().setSpeed(2);
+
+            toMove=4;
+        }
+        else if(e.getKeyChar()=='i') {
+            System.out.println("BOOST");
+            toMove=4;
+        }
         else if (e.getKeyChar() == 'd') {
             game.getPlayer().setRight(false);
         }
@@ -190,10 +209,11 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
             }
             for(int x=0;x<game.getGeneric().size();x++) {
                 Collidable y=game.getGeneric().get(x);
-                if(!(y instanceof Ampelius)&&!touchingObstacle) {
+                if(!(y instanceof Ampelius)&&!touchingObstacle&&!(y instanceof Rotater)) {
                     y.setRect(new Rectangle((int)(y.getRect().getX() - toMove),(int)y.getRect().getY(),(int)y.getRect().getWidth(),(int)y.getRect().getHeight()));
                     //System.out.println("HERE's My New X"+r.getRect().getX());
                 }
+
             }
         }
         //If player is moving LEFT and not touching an obstacle
@@ -203,7 +223,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
             }
             for(int x=0;x<game.getGeneric().size();x++) {
                 Collidable y=game.getGeneric().get(x);
-                if(!(y instanceof Ampelius)&&!touchingObstacle) {
+                if(!(y instanceof Ampelius)&&!touchingObstacle&&!(y instanceof Rotater)) {
                     y.setRect(new Rectangle((int)(y.getRect().getX() + toMove),(int)y.getRect().getY(),(int)y.getRect().getWidth(),(int)y.getRect().getHeight()));
                     //System.out.println("HERE's My New X"+r.getRect().getX());
                 }
@@ -216,7 +236,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
             }
             for(int x=0;x<game.getGeneric().size();x++) {
                 Collidable y=game.getGeneric().get(x);
-                if(!(y instanceof Ampelius)&&!touchingObstacle) {
+                if(!(y instanceof Ampelius)&&!touchingObstacle&&!(y instanceof Rotater)) {
                     y.setRect(new Rectangle((int)(y.getRect().getX()),(int)y.getRect().getY()-toMove,(int)y.getRect().getWidth(),(int)y.getRect().getHeight()));
                     //System.out.println("HERE's My New X"+r.getRect().getX());
                 }
@@ -229,7 +249,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
             }
             for(int x=0;x<game.getGeneric().size();x++) {
                 Collidable y=game.getGeneric().get(x);
-                if(!(y instanceof Ampelius)&&!touchingObstacle) {
+                if(!(y instanceof Ampelius)&&!touchingObstacle&&!(y instanceof Rotater)) {
                     y.setRect(new Rectangle((int)(y.getRect().getX()),(int)y.getRect().getY()+toMove,(int)y.getRect().getWidth(),(int)y.getRect().getHeight()));
                     //System.out.println("HERE's My New X"+r.getRect().getX());
                 }
@@ -239,6 +259,11 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         //System.out.println("HI. I am Ampelius"+ampelius);
         for(int g=0;g<game.getGeneric().size();g++) {
             if((game.getPlayer().collidesWith(game.getGeneric().get(g)))&&!(game.getGeneric().get(g) instanceof WalkableTile)) {
+
+                if(game.getGeneric().get(g) instanceof PatternActivator) {
+                    game.getGeneric().add(new PatternRect((int)game.getPlayer().getRect().getX()-100,(int)game.getPlayer().getRect().getY()+20,new File("PatternRect.png")));
+                    game.getGeneric().remove(game.getGeneric().get(g));
+                }
                 if(game.getGeneric().get(g) instanceof Wall||game.getGeneric().get(g) instanceof LaserRect||game.getGeneric().get(g) instanceof VerticalLaserRect||game.getGeneric().get(g) instanceof VerticalLaserAlternate||game.getGeneric().get(g) instanceof AlternatingLaser) {
                     Collidable c = game.getGeneric().get(g);
                     if (game.getPlayer().isUp()) {
@@ -266,7 +291,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                 }
 
                 //TODO 5/7/19: Figure out how to restart
-                if(game.getGeneric().get(g) instanceof Laser||game.getGeneric().get(g) instanceof VerticalLaser) {
+                if(game.getGeneric().get(g) instanceof Laser||game.getGeneric().get(g) instanceof VerticalLaser||(game.getGeneric().get(g) instanceof Mine&&((Mine) game.getGeneric().get(g)).isCanExplode())||game.getGeneric().get(g) instanceof PatternRect) {
                     System.out.println("HEYY");
                     restart=true;
                     break;
@@ -290,6 +315,23 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
 
         for (int y = 0; y < game.getGeneric().size(); y++) {
             game.getGeneric().get(y).update();
+
+            if(game.getGeneric().get(y) instanceof PatternRect) {
+                if(game.getPlayer().getRect().getX()>game.getGeneric().get(y).getRect().getX()) {
+                    game.getGeneric().get(y).setRight(true);
+                }
+                else if(game.getPlayer().getRect().getX()<game.getGeneric().get(y).getRect().getX()) {
+                    game.getGeneric().get(y).setLeft(true);
+                }
+
+                if(game.getPlayer().getRect().getY()<game.getGeneric().get(y).getRect().getY()) {
+                    game.getGeneric().get(y).setUp(true);
+                }
+
+                else if(game.getPlayer().getRect().getY()>game.getGeneric().get(y).getRect().getY()) {
+                    game.getGeneric().get(y).setDown(true);
+                }
+            }
 
             if(game.getGeneric().get(y) instanceof LaserRect) {
                 if(((LaserRect) game.getGeneric().get(y)).getShootDecide()%120==0) {

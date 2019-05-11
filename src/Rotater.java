@@ -26,19 +26,41 @@ public class Rotater extends Collidable {
         this.speed=speed;
         this.directionRight=directionRight;
         this.y=y;
-        image=convertFileToImage();
-        image=super.tools.scale(convertFileToImage(),10.0,5);
+        image=super.tools.scale(convertFileToImage(),20.0,5);
         this.imageHeight=image.getHeight();
         this.imageWidth=image.getWidth();
-        setRect(new Rectangle(x,y,imageWidth,imageHeight));
         super.setImage(image);
     }
 
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     public void update() {
-        image=tools.rotate(image,90.0);
-        super.setImage(image);
-        //shootDecide++;
+        if(shootDecide%30==0) {
+            int angle=2;
+            BufferedImage img=image;
+            angle = angle%360;
+            AffineTransform affineTransform = new AffineTransform();
+            affineTransform.setToTranslation(0,0);
+            affineTransform.rotate(Math.toRadians(angle), 0, 0);
+            BufferedImage rotated =
+                    new BufferedImage( img.getWidth(), img.getHeight(), img.getTransparency());
+            Graphics2D g = (Graphics2D) (rotated.getGraphics());
+            g.drawImage(img, affineTransform, null);
+            image=rotated;
+            imageHeight = image.getHeight();
+            imageWidth = image.getWidth();
+            super.setImage(image);
+            image = super.getElementImage();
+            System.out.println("I HAVE ROTATED");
+        }
+        shootDecide++;
     }
 
     public int getShootDecide() {
