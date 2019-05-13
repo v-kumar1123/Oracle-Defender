@@ -17,6 +17,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
     boolean touchingObstacle=false;
     OracleDefenderGame game=new OracleDefenderGame();
     int worldX=0;
+    boolean gameOver=false;
     int worldWidth=game.levelWidth;
     int worldHeight=game.levelWidth;
     boolean rightHit=false;
@@ -29,6 +30,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
     public static final int UPS=60;
     private long updatesDone=0;
     boolean gameBeginning=true;
+    Thread t;
     File wallLocation=new File("Wall.png");
     File walkableTileLocation=new File("WalkableTile.png");
     public OracleDefenderFrame() {
@@ -44,7 +46,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         setResizable(false);
         boolean restart=false;
         game.setLevelOne();
-        Thread t=new Thread(this);
+        t=new Thread(this);
         t.start();
     }
     public void paint(Graphics g) {
@@ -61,45 +63,54 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
             game.reset();
             restart=false;
         }
-        //Draws world
-        for(int x=0;x<game.getGeneric().size();x++) {
-            Collidable r=game.getGeneric().get(x);
-            if(game.getPlayer().isLeft()||game.getPlayer().isRight()) {
-                if (r.getRect().getX() == finderX) {
-                    bg.drawImage(r.getElementImage().getSubimage(toMove, 0, r.getElementImage().getWidth() - toMove, r.getElementImage().getHeight()), (int) r.getRect().getX(), (int) r.getRect().getY(), null);
-                }
-                else if (r.getRect().getX() + r.getRect().getWidth() > getWidth() && getWidth() - r.getRect().getX() > 0) {
-                    bg.drawImage(r.getElementImage().getSubimage(0, 0, getWidth() - (int) r.getRect().getX(), r.getElementImage().getHeight()), (int) r.getRect().getX(), (int) r.getRect().getY(), null);
-                } else {
-                    bg.drawImage(game.getGeneric().get(x).getElementImage(), (int) game.getGeneric().get(x).getRect().getX(), (int) game.getGeneric().get(x).getRect().getY(), null);
-                }
-            }
-            else if(game.getPlayer().isUp()||game.getPlayer().isDown()) {
-                if (r.getRect().getY() == finderY) {
-                    bg.drawImage(r.getElementImage().getSubimage(0, toMove, r.getElementImage().getWidth(), r.getElementImage().getHeight()-toMove), (int) r.getRect().getX(), (int) r.getRect().getY(), null);
-                }
-                else if (r.getRect().getY() + r.getRect().getHeight() > getHeight() && getHeight() - r.getRect().getY() > 0) {
-                    bg.drawImage(r.getElementImage().getSubimage(0, 0, (int)r.getRect().getWidth(), (int)(getHeight()- r.getRect().getY())), (int) r.getRect().getX(), (int) r.getRect().getY(), null);
-                } else {
-                    bg.drawImage(game.getGeneric().get(x).getElementImage(), (int) game.getGeneric().get(x).getRect().getX(), (int) game.getGeneric().get(x).getRect().getY(), null);
-                }
-            }
-            else if(r instanceof Rotater) {
-                bg.drawImage(r.getElementImage(),((Rotater) r).getX(),((Rotater) r).getY(),null);
-            }
-            else {
-                bg.drawImage(game.getGeneric().get(x).getElementImage(), (int) game.getGeneric().get(x).getRect().getX(), (int) game.getGeneric().get(x).getRect().getY(), null);
+        if(gameOver) {
+            try {
+                g.drawImage(ImageIO.read(new File("gameover.png")), 0,0,null);
+                Thread.sleep(5000);
+            }catch (IOException d) {
+                d.printStackTrace();
+            }catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
+            System.exit(0);
         }
+        if(!gameOver) {
+            //Draws world
+            for (int x = 0; x < game.getGeneric().size(); x++) {
+                Collidable r = game.getGeneric().get(x);
+                if (game.getPlayer().isLeft() || game.getPlayer().isRight()) {
+                    if (r.getRect().getX() == finderX) {
+                        bg.drawImage(r.getElementImage().getSubimage(toMove, 0, r.getElementImage().getWidth() - toMove, r.getElementImage().getHeight()), (int) r.getRect().getX(), (int) r.getRect().getY(), null);
+                    } else if (r.getRect().getX() + r.getRect().getWidth() > getWidth() && getWidth() - r.getRect().getX() > 0) {
+                        bg.drawImage(r.getElementImage().getSubimage(0, 0, getWidth() - (int) r.getRect().getX(), r.getElementImage().getHeight()), (int) r.getRect().getX(), (int) r.getRect().getY(), null);
+                    } else {
+                        bg.drawImage(game.getGeneric().get(x).getElementImage(), (int) game.getGeneric().get(x).getRect().getX(), (int) game.getGeneric().get(x).getRect().getY(), null);
+                    }
+                } else if (game.getPlayer().isUp() || game.getPlayer().isDown()) {
+                    if (r.getRect().getY() == finderY) {
+                        bg.drawImage(r.getElementImage().getSubimage(0, toMove, r.getElementImage().getWidth(), r.getElementImage().getHeight() - toMove), (int) r.getRect().getX(), (int) r.getRect().getY(), null);
+                    } else if (r.getRect().getY() + r.getRect().getHeight() > getHeight() && getHeight() - r.getRect().getY() > 0) {
+                        bg.drawImage(r.getElementImage().getSubimage(0, 0, (int) r.getRect().getWidth(), (int) (getHeight() - r.getRect().getY())), (int) r.getRect().getX(), (int) r.getRect().getY(), null);
+                    } else {
+                        bg.drawImage(game.getGeneric().get(x).getElementImage(), (int) game.getGeneric().get(x).getRect().getX(), (int) game.getGeneric().get(x).getRect().getY(), null);
+                    }
+                } else if (r instanceof Rotater) {
+                    bg.drawImage(r.getElementImage(), ((Rotater) r).getX(), ((Rotater) r).getY(), null);
+                } else {
+                    bg.drawImage(game.getGeneric().get(x).getElementImage(), (int) game.getGeneric().get(x).getRect().getX(), (int) game.getGeneric().get(x).getRect().getY(), null);
+                }
+
+            }
 //         ============
-          //          \\
-         //            \\
-        //Draws Ampelius\\
+            //          \\
+            //            \\
+            //Draws Ampelius\\
 
-        bg.drawImage(game.getPlayer().getElementImage(), (int)game.getPlayer().getRect().getX(), (int)game.getPlayer().getRect().getY(), null);
+            bg.drawImage(game.getPlayer().getElementImage(), (int) game.getPlayer().getRect().getX(), (int) game.getPlayer().getRect().getY(), null);
 
-        g.drawImage(buffer,0,0,null);
+            g.drawImage(buffer, 0, 0, null);
+        }
     }
 
     public void drawLevelOne(Graphics g) {
@@ -120,6 +131,9 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         if(e.getKeyChar()=='l') {
             System.out.println("BOOST");
             toMove=7;
+        }
+        if(e.getKeyChar()=='r') {
+            restart=true;
         }
         if(e.getKeyChar()=='i') {
             System.out.println("\t\t\t\tYou're about to glitch the game");
@@ -294,7 +308,13 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                 if(game.getGeneric().get(g) instanceof Laser||game.getGeneric().get(g) instanceof VerticalLaser||(game.getGeneric().get(g) instanceof Mine&&((Mine) game.getGeneric().get(g)).isCanExplode())||game.getGeneric().get(g) instanceof PatternRect) {
                     System.out.println("HEYY");
                     restart=true;
+                    gameOver=true;
                     break;
+                }
+                if(game.getGeneric().get(g) instanceof endgame) {
+                    t.interrupt();
+                    System.out.println("\t\t\t\t\t\t\t\tI AM FINISHED");
+                    gameOver=true;
                 }
                 break;
             }
@@ -381,7 +401,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
             }
 
             if(game.getGeneric().get(y) instanceof VerticalLaserAlternate) {
-                if(((VerticalLaserAlternate) game.getGeneric().get(y)).getShootDecide()%20==0) {
+                if(((VerticalLaserAlternate) game.getGeneric().get(y)).getShootDecide()%90==0) {
                     if(((VerticalLaserAlternate) game.getGeneric().get(y)).directionUp) {
                         game.getGeneric().add(new VerticalLaser((int)game.getGeneric().get(y).getRect().getX()+20,(int)game.getGeneric().get(y).getRect().getY()-50,new File("VerticalRect.png")));
                         ((VerticalLaser)game.getGeneric().get(game.getGeneric().size()-1)).setUp(true);

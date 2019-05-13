@@ -10,6 +10,7 @@ public class Ampelius extends Collidable{
     int startY=0;
     int speed=2;
     int boostLeft=100;
+    int lives=5;
     boolean up=false;
     boolean down=false;
     boolean right=false;
@@ -29,6 +30,14 @@ public class Ampelius extends Collidable{
         super.setImage(image);
         this.startX=x;
         this.startY=y;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void decreaseLife() {
+        lives--;
     }
 
     public void restart() {
