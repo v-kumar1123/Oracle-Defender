@@ -6,7 +6,7 @@ public class PatternRect extends Collidable {
     int imageWidth=0;
     int imageHeight=0;
     BufferedImage image=null;
-    int speed=2;
+    int speed=4;
     int shouldI=0;
 
     @Override

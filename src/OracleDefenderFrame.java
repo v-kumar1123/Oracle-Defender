@@ -66,14 +66,12 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         if(gameOver) {
             try {
                 g.drawImage(ImageIO.read(new File("gameover.png")), 0,0,null);
-                Thread.sleep(5000);
+                //Thread.sleep(5000);
             }catch (IOException d) {
                 d.printStackTrace();
-            }catch (InterruptedException e) {
-                e.printStackTrace();
             }
 
-            System.exit(0);
+            //System.exit(0);
         }
         if(!gameOver) {
             //Draws world
@@ -134,6 +132,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         }
         if(e.getKeyChar()=='r') {
             restart=true;
+            gameOver=false;
         }
         if(e.getKeyChar()=='i') {
             System.out.println("\t\t\t\tYou're about to glitch the game");
@@ -303,8 +302,6 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                         return;
                     }
                 }
-
-                //TODO 5/7/19: Figure out how to restart
                 if(game.getGeneric().get(g) instanceof Laser||game.getGeneric().get(g) instanceof VerticalLaser||(game.getGeneric().get(g) instanceof Mine&&((Mine) game.getGeneric().get(g)).isCanExplode())||game.getGeneric().get(g) instanceof PatternRect) {
                     System.out.println("HEYY");
                     restart=true;
