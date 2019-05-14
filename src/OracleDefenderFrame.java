@@ -2,6 +2,7 @@ import javafx.scene.transform.Rotate;
 import org.ietf.jgss.GSSManager;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -27,6 +28,8 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
     boolean restart=false;
     int worldY=0;
     BufferedImage buffer=null;
+    Clip clip, reet, reel=null;
+    AudioInputStream loll,audioIn,deathMusic=null;
     public static final int UPS=60;
     private long updatesDone=0;
     boolean gameBeginning=true;
@@ -48,6 +51,28 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         game.setLevelOne();
         t=new Thread(this);
         t.start();
+
+        try {
+            File soundFile = new File("mega.wav");
+            audioIn = AudioSystem.getAudioInputStream(soundFile);
+            File deathSound=new File("death.wav");
+            deathMusic = AudioSystem.getAudioInputStream(deathSound);
+            File lol=new File("won.wav");
+            loll = AudioSystem.getAudioInputStream(lol);
+            clip = AudioSystem.getClip();
+            reet=AudioSystem.getClip();
+            reel=AudioSystem.getClip();
+            clip.open(audioIn);
+            reet.open(deathMusic);
+            reel.open(loll);
+        }catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+        clip.loop(999);
     }
     public void paint(Graphics g) {
         Graphics bg=buffer.getGraphics();
@@ -130,9 +155,15 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
             System.out.println("BOOST");
             toMove=7;
         }
+        if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
+            System.exit(0);
+        }
         if(e.getKeyChar()=='r') {
             restart=true;
             gameOver=false;
+            reet.stop();
+            clip.start();
+            reel.stop();
         }
         if(e.getKeyChar()=='i') {
             System.out.println("\t\t\t\tYou're about to glitch the game");
@@ -306,12 +337,18 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                     System.out.println("HEYY");
                     restart=true;
                     gameOver=true;
+                    clip.stop();
+                    reet.loop(666);
+                    reel.stop();
                     break;
                 }
                 if(game.getGeneric().get(g) instanceof endgame) {
                     t.interrupt();
                     System.out.println("\t\t\t\t\t\t\t\tI AM FINISHED");
                     gameOver=true;
+                    clip.stop();
+                    reet.stop();
+                    reel.start();
                 }
                 break;
             }
