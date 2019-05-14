@@ -74,6 +74,10 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         }
         reel.stop();
         reet.stop();
+        FloatControl gainControl =
+                (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(-20.0f); // Reduce volume by 10 decibels.
+        //clip.start();
         clip.loop(999);
     }
     public void paint(Graphics g) {
@@ -307,6 +311,15 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
             if((game.getPlayer().collidesWith(game.getGeneric().get(g)))&&!(game.getGeneric().get(g) instanceof WalkableTile)) {
 
                 if(game.getGeneric().get(g) instanceof PatternActivator) {
+                    try {
+                        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                                new File("growl.wav"));
+                        Clip growl = AudioSystem.getClip();
+                        growl.open(audioInputStream);
+                        growl.start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     game.getGeneric().add(new PatternRect((int)game.getPlayer().getRect().getX()-100,(int)game.getPlayer().getRect().getY()+20,new File("PatternRect.png")));
                     game.getGeneric().remove(game.getGeneric().get(g));
                 }
@@ -337,10 +350,36 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                 }
                 if(game.getGeneric().get(g) instanceof Laser||game.getGeneric().get(g) instanceof VerticalLaser||(game.getGeneric().get(g) instanceof Mine&&((Mine) game.getGeneric().get(g)).isCanExplode())||game.getGeneric().get(g) instanceof PatternRect) {
                     System.out.println("HEYY");
+                    if(game.getGeneric().get(g) instanceof Laser||game.getGeneric().get(g) instanceof VerticalLaser) {
+
+                        Clip laser=null;
+                        try {
+                            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                                    new File("laser.wav"));
+                            laser = AudioSystem.getClip();
+                            laser.open(audioInputStream);
+                            laser.start();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else if(game.getGeneric().get(g) instanceof Mine) {
+
+                        Clip explode=null;
+                        try {
+                            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                                    new File("explode.wav"));
+                            explode = AudioSystem.getClip();
+                            explode.open(audioInputStream);
+                            explode.start();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                     restart=true;
                     gameOver=true;
                     clip.stop();
-                    reet.loop(666);
+                    reet.start();
                     reel.stop();
                     break;
                 }
