@@ -72,6 +72,8 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }
+        reel.stop();
+        reet.stop();
         clip.loop(999);
     }
     public void paint(Graphics g) {
