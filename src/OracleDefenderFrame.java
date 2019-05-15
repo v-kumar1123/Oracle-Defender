@@ -19,6 +19,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
     OracleDefenderGame game=new OracleDefenderGame();
     int worldX=0;
     boolean gameOver=false;
+    boolean won=false;
     int worldWidth=game.levelWidth;
     int worldHeight=game.levelWidth;
     boolean rightHit=false;
@@ -95,11 +96,20 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
             restart=false;
         }
         if(gameOver) {
-            try {
-                g.drawImage(ImageIO.read(new File("gameover.png")), 0,0,null);
-                //Thread.sleep(5000);
-            }catch (IOException d) {
-                d.printStackTrace();
+            if (won) {
+                try {
+                    g.drawImage(ImageIO.read(new File("wondr.png")), 0, 0, null);
+                    //Thread.sleep(5000);
+                } catch (IOException d) {
+                    d.printStackTrace();
+                }
+            } else {
+                try {
+                    g.drawImage(ImageIO.read(new File("gameover.png")), 0, 0, null);
+                    //Thread.sleep(5000);
+                } catch (IOException d) {
+                    d.printStackTrace();
+                }
             }
 
             //System.exit(0);
@@ -167,6 +177,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         if(e.getKeyChar()=='r') {
             restart=true;
             gameOver=false;
+            won=false;
             reet.stop();
             clip.start();
             reel.stop();
@@ -368,7 +379,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                         Clip explode=null;
                         try {
                             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
-                                    new File("explode.wav"));
+                                    new File("exploded.wav"));
                             explode = AudioSystem.getClip();
                             explode.open(audioInputStream);
                             explode.start();
@@ -376,10 +387,22 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                             e.printStackTrace();
                         }
                     }
+                    else if(game.getGeneric().get(g) instanceof PatternRect) {
+                        Clip schlonk=null;
+                        try {
+                            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                                    new File("schlonk.wav"));
+                            schlonk = AudioSystem.getClip();
+                            schlonk.open(audioInputStream);
+                            schlonk.start();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                     restart=true;
                     gameOver=true;
                     clip.stop();
-                    reet.start();
+                    //reet.start();
                     reel.stop();
                     break;
                 }
@@ -388,7 +411,8 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
                     System.out.println("\t\t\t\t\t\t\t\tI AM FINISHED");
                     gameOver=true;
                     clip.stop();
-                    reet.stop();
+                    won=true;
+                    //reet.stop();
                     reel.start();
                 }
                 break;
