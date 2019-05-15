@@ -148,7 +148,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
 
             bg.drawImage(game.getPlayer().getElementImage(), (int) game.getPlayer().getRect().getX(), (int) game.getPlayer().getRect().getY(), null);
 
-            g.drawImage(tools.scale(buffer,2.0,2.0), 0, 0, null);
+            g.drawImage(tools.scale(buffer,(double)getWidth()/buffer.getWidth(),(double)getHeight()/buffer.getHeight()), 0, 0, null);
         }
     }
 
