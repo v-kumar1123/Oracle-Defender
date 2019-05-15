@@ -40,9 +40,9 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
     public OracleDefenderFrame() {
         super();
         addKeyListener(this);
-        setSize(800,800);
+        setSize(400,400);
 
-        buffer=new BufferedImage(450,450,BufferedImage.TYPE_4BYTE_ABGR);
+        buffer=new BufferedImage(400,400,BufferedImage.TYPE_4BYTE_ABGR);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setUndecorated(false);
@@ -98,14 +98,14 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         if(gameOver) {
             if (won) {
                 try {
-                    g.drawImage(tools.scale(ImageIO.read(new File("wondr.png")),2.,2.), 0, 0, null);
+                    g.drawImage(tools.scale(ImageIO.read(new File("wondr.png")),(double)getWidth()/buffer.getWidth(),(double)getHeight()/buffer.getHeight()), 0, 0, null);
                     //Thread.sleep(5000);
                 } catch (IOException d) {
                     d.printStackTrace();
                 }
             } else {
                 try {
-                    g.drawImage(tools.scale(ImageIO.read(new File("gameover.png")),2.,2.), 0, 0, null);
+                    g.drawImage(tools.scale(ImageIO.read(new File("gameover.png")),(double)getWidth()/buffer.getWidth(),(double)getHeight()/buffer.getHeight()), 0, 0, null);
                     //Thread.sleep(5000);
                 } catch (IOException d) {
                     d.printStackTrace();
