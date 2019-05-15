@@ -7,7 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="356d9554-b950-448a-8770-a981f0b0cb50" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/World1Level1" beforeDir="false" afterPath="$PROJECT_DIR$/World1Level1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/OracleDefender/OracleDefenderFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OracleDefender/OracleDefenderFrame.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/OracleDefenderFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/OracleDefenderFrame.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -22,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/OracleDefenderFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="413" column="29" selection-start-line="413" selection-start-column="29" selection-end-line="413" selection-end-column="29" />
+            <state relative-caret-position="323">
+              <caret line="107" column="90" selection-start-line="107" selection-start-column="90" selection-end-line="107" selection-end-column="90" />
             </state>
           </provider>
         </entry>
@@ -78,10 +79,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/World1Level1">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="586">
+            <state relative-caret-position="212">
               <caret line="26" column="51" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
             </state>
           </provider>
@@ -176,6 +177,7 @@
       <find>explode.</find>
       <find>reet.s</find>
       <find>reel</find>
+      <find>won</find>
     </findStrings>
     <replaceStrings>
       <replace>t.</replace>
@@ -212,16 +214,16 @@
         <option value="$PROJECT_DIR$/src/Ampelius.java" />
         <option value="$PROJECT_DIR$/src/endgame.java" />
         <option value="$PROJECT_DIR$/src/OracleDefenderGame.java" />
-        <option value="$PROJECT_DIR$/src/OracleDefenderFrame.java" />
         <option value="$PROJECT_DIR$/World1Level1" />
+        <option value="$PROJECT_DIR$/src/OracleDefenderFrame.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-6" />
-    <option name="y" value="-6" />
+    <option name="x" value="-1205" />
+    <option name="y" value="-18" />
     <option name="width" value="465" />
-    <option name="height" value="490" />
+    <option name="height" value="491" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -417,11 +419,25 @@
       <option name="project" value="LOCAL" />
       <updated>1557880307202</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Greeat3.0">
+      <created>1557881728383</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1557881728383</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Greeat3.0">
+      <created>1557881743224</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1557881743224</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-1927" y="-7" width="1295" height="695" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.2728745" />
@@ -433,7 +449,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.20043337" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.19893429" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39869988" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -500,7 +516,8 @@
     <MESSAGE value="Done. May try and complete rotate" />
     <MESSAGE value="yeet" />
     <MESSAGE value="Greeat" />
-    <option name="LAST_COMMIT_MESSAGE" value="Greeat" />
+    <MESSAGE value="Greeat3.0" />
+    <option name="LAST_COMMIT_MESSAGE" value="Greeat3.0" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/World1Level1.java" />
@@ -578,13 +595,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="324">
           <caret line="16" column="59" selection-start-line="16" selection-start-column="59" selection-end-line="16" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/OracleDefenderFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="413" column="29" selection-start-line="413" selection-start-column="29" selection-end-line="413" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -671,8 +681,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/World1Level1">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="586">
+        <state relative-caret-position="212">
           <caret line="26" column="51" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/OracleDefenderFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="107" column="90" selection-start-line="107" selection-start-column="90" selection-end-line="107" selection-end-column="90" />
         </state>
       </provider>
     </entry>

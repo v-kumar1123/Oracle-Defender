@@ -31,7 +31,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
     BufferedImage buffer=null;
     Clip clip, reet, reel=null;
     AudioInputStream loll,audioIn,deathMusic=null;
-    public static final int UPS=60;
+    public static final int UPS=70;
     private long updatesDone=0;
     boolean gameBeginning=true;
     Thread t;
@@ -40,12 +40,12 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
     public OracleDefenderFrame() {
         super();
         addKeyListener(this);
-        setSize(400,400);
+        setSize(800,800);
 
-        buffer=new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_4BYTE_ABGR);
+        buffer=new BufferedImage(450,450,BufferedImage.TYPE_4BYTE_ABGR);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setUndecorated(true);
+        setUndecorated(false);
         setVisible(true);
         setResizable(false);
         boolean restart=false;
@@ -98,14 +98,14 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
         if(gameOver) {
             if (won) {
                 try {
-                    g.drawImage(ImageIO.read(new File("wondr.png")), 0, 0, null);
+                    g.drawImage(tools.scale(ImageIO.read(new File("wondr.png")),2.,2.), 0, 0, null);
                     //Thread.sleep(5000);
                 } catch (IOException d) {
                     d.printStackTrace();
                 }
             } else {
                 try {
-                    g.drawImage(ImageIO.read(new File("gameover.png")), 0, 0, null);
+                    g.drawImage(tools.scale(ImageIO.read(new File("gameover.png")),2.,2.), 0, 0, null);
                     //Thread.sleep(5000);
                 } catch (IOException d) {
                     d.printStackTrace();
@@ -148,7 +148,7 @@ public class OracleDefenderFrame extends JFrame implements KeyListener, Runnable
 
             bg.drawImage(game.getPlayer().getElementImage(), (int) game.getPlayer().getRect().getX(), (int) game.getPlayer().getRect().getY(), null);
 
-            g.drawImage(buffer, 0, 0, null);
+            g.drawImage(tools.scale(buffer,2.0,2.0), 0, 0, null);
         }
     }
 
